@@ -14,30 +14,6 @@
 }
 html,body{height:100%;width:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,'Quicksand',sans-serif;background:var(--darker);color:#fff;-webkit-font-smoothing:antialiased}
 
-/* ========== DESKTOP GATE ========== */
-#desktopGate{
-  display:none;position:fixed;inset:0;z-index:9999;
-  background:radial-gradient(circle at 30% 20%,#2e1a3d 0%,#1a1430 55%,#0b0718 100%);
-  justify-content:center;align-items:center;padding:24px;
-  text-align:center;
-}
-#desktopGate.show{display:flex}
-.gate-content{
-  max-width:560px;padding:36px 28px;
-  background:rgba(255,255,255,.06);border:2px solid rgba(255,224,102,.4);
-  border-radius:24px;backdrop-filter:blur(14px);
-  box-shadow:0 20px 60px rgba(255,182,217,.25);
-  animation:gateBounce .8s cubic-bezier(.34,1.56,.64,1) both;
-}
-@keyframes gateBounce{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.gate-icon{font-size:64px;margin-bottom:14px;display:block;filter:drop-shadow(0 6px 20px rgba(255,182,217,.55));animation:gateWiggle 2.6s ease-in-out infinite}
-@keyframes gateWiggle{0%,100%{transform:rotate(-4deg) scale(1)}50%{transform:rotate(4deg) scale(1.06)}}
-.gate-content h2{font-size:clamp(1.4rem,3vw,1.9rem);font-weight:900;margin-bottom:14px;background:linear-gradient(135deg,#FFE066,#FFB6D9,#C8A2FF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.gate-content p{font-size:clamp(.9rem,1.8vw,1.05rem);line-height:1.7;color:rgba(255,255,255,.9);margin-bottom:10px}
-.gate-content .gate-hint{margin-top:18px;padding:12px 20px;background:rgba(255,224,102,.14);border:1.5px dashed rgba(255,224,102,.55);border-radius:14px;font-weight:700;color:#FFE066;display:inline-block}
-.gate-content .gate-hint strong{color:#FFB6D9}
-.gate-content .gate-brand{margin-top:22px;font-size:.8rem;letter-spacing:3px;color:rgba(255,255,255,.5);text-transform:uppercase}
-
 /* ========== BACKGROUND ========== */
 #bgLayer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 #meshGradient{position:absolute;inset:-20%;background:
@@ -266,18 +242,6 @@ td strong{color:#FFE066}
 </head>
 <body>
 
-<!-- ========== DESKTOP GATE ========== -->
-<div id="desktopGate">
-  <div class="gate-content">
-    <span class="gate-icon">💻</span>
-    <h2>Mohon Buka di Desktop</h2>
-    <p>Presentasi ini dirancang khusus untuk <strong>layar lebar</strong> (minimal 1024px) supaya tampilannya enak dilihat dan rapi.</p>
-    <p>Silakan buka lewat <strong>laptop atau komputer</strong> untuk pengalaman terbaik.</p>
-    <span class="gate-hint">📱 Kalau di HP / tablet → coba putar ke mode <strong>LANDSCAPE</strong> ya!</span>
-    <div class="gate-brand">Kelompok 6 · Presentasi Biologi</div>
-  </div>
-</div>
-
 <div id="bgLayer">
   <div id="meshGradient"></div>
   <div class="blob b1"></div><div class="blob b2"></div>
@@ -310,7 +274,6 @@ td strong{color:#FFE066}
       </defs>
       <path d="M120 200 C 40 145, 15 85, 50 50 C 80 22, 115 35, 120 70 C 125 35, 160 22, 190 50 C 225 85, 200 145, 120 200 Z" fill="url(#hg)" stroke="#FFB6D9" stroke-width="2"/>
       <ellipse cx="85" cy="70" rx="17" ry="11" fill="#FFF8EC" opacity=".55"/>
-      <!-- Sel darah berputar di sekitar jantung -->
       <g class="svg-rotate-slow" style="transform-origin:120px 110px">
         <circle cx="35" cy="40" r="9" fill="#C8A2FF" opacity=".9"/>
         <circle cx="205" cy="40" r="7" fill="#7BE8C4" opacity=".9"/>
@@ -370,7 +333,6 @@ td strong{color:#FFE066}
             <text x="168" y="155" text-anchor="middle" fill="#fff" font-size="9" opacity=".7">paru</text>
             <text x="232" y="155" text-anchor="middle" fill="#fff" font-size="9" opacity=".7">paru</text>
 
-            <!-- Path untuk aliran darah (dipakai mpath) -->
             <path id="p1" d="M200 190 L 200 105" fill="none"/>
             <path id="p2" d="M190 200 Q 160 240, 148 260 L 132 290" fill="none"/>
             <path id="p3" d="M210 200 Q 240 240, 252 260 L 268 290" fill="none"/>
@@ -379,7 +341,6 @@ td strong{color:#FFE066}
             <path id="p6" d="M180 220 L 165 290 L 165 355" fill="none"/>
             <path id="p7" d="M220 220 L 235 290 L 235 355" fill="none"/>
 
-            <!-- Garis pembuluh (statis) -->
             <use href="#p1" stroke="url(#artG)" stroke-width="3.5" stroke-linecap="round"/>
             <use href="#p2" stroke="url(#artG)" stroke-width="3" stroke-linecap="round"/>
             <use href="#p3" stroke="url(#artG)" stroke-width="3" stroke-linecap="round"/>
@@ -388,13 +349,11 @@ td strong{color:#FFE066}
             <use href="#p6" stroke="url(#artG)" stroke-width="2.5" stroke-linecap="round"/>
             <use href="#p7" stroke="url(#artG)" stroke-width="2.5" stroke-linecap="round"/>
 
-            <!-- Jantung (di atas pembuluh) dengan heartbeat -->
             <g class="svg-pulse" style="transform-origin:200px 160px">
               <path d="M200 178 C 180 162, 172 148, 184 138 C 194 130, 200 140, 200 148 C 200 140, 206 130, 216 138 C 228 148, 220 162, 200 178 Z" fill="#FF6B8A" stroke="#FFF8EC" stroke-width="2"/>
               <text x="200" y="168" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">JANTUNG</text>
             </g>
 
-            <!-- SEL DARAH BERGERAK di sepanjang pembuluh -->
             <circle r="4.5" fill="#FF7EB6" class="svg-glow">
               <animateMotion dur="2.4s" repeatCount="indefinite" rotate="auto"><mpath href="#p1"/></animateMotion>
             </circle>
@@ -420,7 +379,6 @@ td strong{color:#FFE066}
               <animateMotion dur="3.4s" begin="1.7s" repeatCount="indefinite" rotate="auto"><mpath href="#p7"/></animateMotion>
             </circle>
 
-            <!-- Vena (biru) mengalir balik -->
             <path d="M195 105 L 195 60" stroke="url(#veinG)" stroke-width="3" fill="none" stroke-linecap="round" class="svg-dashflow"/>
             <path d="M205 200 Q 175 245, 162 265" stroke="url(#veinG)" stroke-width="2.5" fill="none" stroke-linecap="round" class="svg-dashflow"/>
             <path d="M195 200 Q 225 245, 238 265" stroke="url(#veinG)" stroke-width="2.5" fill="none" stroke-linecap="round" class="svg-dashflow"/>
@@ -439,7 +397,7 @@ td strong{color:#FFE066}
       <div class="anim-right" style="--d:.4s;text-align:left">
         <div class="card c-pink">
           <span class="icon">🩸</span>
-          <h3>Definisi Ilmiah (versi buku)</h3>
+          <h3>Definisi Ilmiah</h3>
           <p>Darah adalah <strong>jaringan ikat khusus berbentuk cair</strong> yang tersusun dari <em>plasma darah</em> (cairan) + <em>sel-sel darah</em> (eritrosit, leukosit, trombosit). Darah dipompa jantung dan mengalir lewat pembuluh darah ke seluruh tubuh.</p>
         </div>
       </div>
@@ -485,7 +443,6 @@ td strong{color:#FFE066}
         <rect x="38" y="195" width="124" height="14" fill="#FFF8EC"/>
         <text x="100" y="205" text-anchor="middle" fill="#1a1430" font-size="8" font-weight="800">buffy coat &lt; 1%</text>
         <path d="M38 209 L38 320 Q38 372 100 372 Q162 372 162 320 L162 209 Z" fill="url(#rbcG)"/>
-        <!-- Sel darah merah di dalam tabung bergerak sedikit -->
         <g class="svg-float">
           <circle cx="70" cy="270" r="5" fill="#FFB6D9" opacity=".8"/>
           <circle cx="130" cy="290" r="5" fill="#FFB6D9" opacity=".8"/>
@@ -496,7 +453,6 @@ td strong{color:#FFE066}
         <text x="100" y="308" text-anchor="middle" fill="#fff" font-size="9" opacity=".85">sel darah merah</text>
         <ellipse cx="60" cy="100" rx="10" ry="35" fill="#fff" opacity=".3"/>
         <ellipse cx="100" cy="30" rx="66" ry="10" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="3"/>
-        <!-- Plasma floaty dots -->
         <circle cx="80" cy="80" r="3" fill="#FFB6D9" opacity=".7" class="svg-float"/>
         <circle cx="120" cy="110" r="3" fill="#C8A2FF" opacity=".7" class="svg-float" style="animation-delay:-1s"/>
         <circle cx="90" cy="140" r="3" fill="#7BE8C4" opacity=".7" class="svg-float" style="animation-delay:-2s"/>
@@ -560,7 +516,6 @@ td strong{color:#FFE066}
           <path d="M60 40 L60 260 Q60 285 100 285 L240 285 Q280 285 280 260 L280 40 Z" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
           <path d="M62 42 L62 250 L278 250 L278 42 Z" fill="#88D4FF" opacity=".55"/>
           <path d="M62 250 L62 275 Q62 282 100 282 L240 282 Q278 282 278 275 L278 250 Z" fill="#FFB6D9" opacity=".85"/>
-          <!-- Partikel plasma bergerak -->
           <circle cx="130" cy="200" r="4" fill="#FFE066" class="svg-float"/>
           <circle cx="180" cy="170" r="4" fill="#7BE8C4" class="svg-float" style="animation-delay:-1s"/>
           <circle cx="220" cy="190" r="4" fill="#C8A2FF" class="svg-float" style="animation-delay:-2s"/>
@@ -629,7 +584,6 @@ td strong{color:#FFE066}
           <text x="180" y="100" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="900">gepeng</text>
           <text x="310" y="30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="12" font-weight="800">✓ Eritrosit</text>
           <text x="310" y="48" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="10">(bayangkan donat tanpa lubang)</text>
-          <!-- Eritrosit dengan bikonkaf + rotate -->
           <g class="svg-rotate-slow" style="transform-origin:310px 130px">
             <ellipse cx="310" cy="130" rx="72" ry="50" fill="url(#rbcGrad)"/>
             <ellipse cx="310" cy="130" rx="34" ry="20" fill="url(#dentGrad)"/>
@@ -695,7 +649,6 @@ td strong{color:#FFE066}
           <radialGradient id="basoG" cx="35%" cy="30%"><stop offset="0%" stop-color="#FFE066"/><stop offset="100%" stop-color="#FB8500"/></radialGradient>
         </defs>
 
-        <!-- NEUTROFIL -->
         <g transform="translate(90,100)" class="svg-pulse" style="animation-delay:0s">
           <circle r="58" fill="url(#neutroG)" stroke="#fff" stroke-width="1.5"/>
           <circle cx="-20" cy="-20" r="2.5" fill="#9B5DE5" opacity=".7"/>
@@ -709,7 +662,6 @@ td strong{color:#FFE066}
           <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti 3 lobus · pemakan bakteri</text>
         </g>
 
-        <!-- LIMFOSIT -->
         <g transform="translate(270,100)" class="svg-pulse" style="animation-delay:.3s">
           <circle r="58" fill="url(#limfoG)" stroke="#fff" stroke-width="1.5"/>
           <circle r="32" fill="#1e3a8a" opacity=".9"/>
@@ -720,7 +672,6 @@ td strong{color:#FFE066}
           <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti besar · bikin antibodi</text>
         </g>
 
-        <!-- MONOSIT -->
         <g transform="translate(450,100)" class="svg-pulse" style="animation-delay:.6s">
           <circle r="58" fill="url(#monoG)" stroke="#fff" stroke-width="1.5"/>
           <path d="M-20 -10 Q 0 -22, 20 -8 Q 26 6, 12 14 Q 0 20, -14 12 Q -26 4, -20 -10 Z" fill="#065f46" stroke="#fff" stroke-width="1"/>
@@ -730,7 +681,6 @@ td strong{color:#FFE066}
           <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti ginjal · jadi makrofag</text>
         </g>
 
-        <!-- EOSINOFIL -->
         <g transform="translate(630,100)" class="svg-pulse" style="animation-delay:.9s">
           <circle r="58" fill="url(#eosiG)" stroke="#fff" stroke-width="1.5"/>
           <circle cx="-22" cy="-14" r="4" fill="#E63956" opacity=".85"/>
@@ -747,7 +697,6 @@ td strong{color:#FFE066}
           <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti 2 lobus · anti parasit</text>
         </g>
 
-        <!-- BASOFIL -->
         <g transform="translate(810,100)" class="svg-pulse" style="animation-delay:1.2s">
           <circle r="58" fill="url(#basoG)" stroke="#fff" stroke-width="1.5"/>
           <circle cx="-18" cy="-16" r="5" fill="#4a0420" opacity=".9"/>
@@ -798,7 +747,6 @@ td strong{color:#FFE066}
       <h3 style="text-align:center">🔬 Bagaimana Leukosit Makan Kuman? (Fagositosis)</h3>
       <div class="svg-box" style="margin-top:10px">
         <svg viewBox="0 0 900 130" width="100%" style="max-width:880px">
-          <!-- Tahap 1 -->
           <g transform="translate(80,65)">
             <circle r="30" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5" class="svg-pulse"/>
             <circle r="8" fill="#9B5DE5" opacity=".7"/>
@@ -808,7 +756,6 @@ td strong{color:#FFE066}
           </g>
           <path d="M130 65 L 175 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)" class="svg-dashflow"/>
           <defs><marker id="arrowM" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#FFE066"/></marker></defs>
-          <!-- Tahap 2 -->
           <g transform="translate(240,65)">
             <circle r="32" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5" class="svg-pulse" style="animation-delay:.3s"/>
             <circle r="8" fill="#9B5DE5" opacity=".7"/>
@@ -818,7 +765,6 @@ td strong{color:#FFE066}
             <text y="-32" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">bergerak ke kuman</text>
           </g>
           <path d="M295 65 L 340 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)" class="svg-dashflow"/>
-          <!-- Tahap 3 -->
           <g transform="translate(410,65)">
             <circle r="34" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5" class="svg-pulse" style="animation-delay:.6s"/>
             <circle r="8" fill="#9B5DE5" opacity=".7"/>
@@ -828,7 +774,6 @@ td strong{color:#FFE066}
             <text y="-34" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">"kaki" melingkup kuman</text>
           </g>
           <path d="M470 65 L 515 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)" class="svg-dashflow"/>
-          <!-- Tahap 4 -->
           <g transform="translate(600,65)">
             <circle r="36" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5" class="svg-pulse" style="animation-delay:.9s"/>
             <circle r="8" fill="#9B5DE5" opacity=".7"/>
@@ -837,7 +782,6 @@ td strong{color:#FFE066}
             <text y="-36" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">kuman dihancurkan enzim</text>
           </g>
           <path d="M660 65 L 705 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)" class="svg-dashflow"/>
-          <!-- Tahap 5 -->
           <g transform="translate(800,65)">
             <circle r="36" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5" class="svg-pulse" style="animation-delay:1.2s"/>
             <circle r="8" fill="#9B5DE5" opacity=".7"/>
@@ -868,7 +812,6 @@ td strong{color:#FFE066}
           </defs>
           <text x="100" y="30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="12" font-weight="800">Megakariosit (sel BESAR)</text>
           <text x="100" y="48" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="10">tinggal di sumsum tulang</text>
-          <!-- Megakariosit dengan pulse -->
           <g class="svg-pulse" style="transform-origin:100px 160px">
             <circle cx="100" cy="160" r="80" fill="url(#megaG)" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
             <circle cx="100" cy="160" r="50" fill="#6B21A8" opacity=".4"/>
@@ -886,7 +829,6 @@ td strong{color:#FFE066}
           <text x="225" y="185" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">jadi ribuan keping</text>
           <text x="350" y="30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="12" font-weight="800">Trombosit</text>
           <text x="350" y="48" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="10">(fragmen kecil)</text>
-          <!-- Trombosit menyebar keluar dari megakariosit -->
           <ellipse cx="310" cy="120" rx="26" ry="16" fill="#C8A2FF" stroke="#fff" stroke-width="1.2" class="svg-float"/>
           <ellipse cx="390" cy="135" rx="24" ry="14" fill="#FFB6D9" stroke="#fff" stroke-width="1.2" class="svg-float" style="animation-delay:-1s"/>
           <ellipse cx="305" cy="180" rx="22" ry="13" fill="#7BE8C4" stroke="#fff" stroke-width="1.2" class="svg-float" style="animation-delay:-2s"/>
@@ -944,7 +886,6 @@ td strong{color:#FFE066}
         <svg viewBox="0 0 100 55">
           <path d="M10 25 Q 50 12, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none" stroke-linecap="round"/>
           <path d="M10 25 Q 50 38, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
-          <!-- Panah menyempit -->
           <path d="M30 8 L 50 20" stroke="#FFE066" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
           <path d="M70 8 L 50 20" stroke="#FFE066" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
           <text x="50" y="50" text-anchor="middle" fill="#FFE066" font-size="7" font-weight="700">pembuluh menyempit</text>
@@ -956,7 +897,6 @@ td strong{color:#FFE066}
         <div class="num">2</div>
         <svg viewBox="0 0 100 55">
           <path d="M10 25 Q 50 12, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none"/>
-          <!-- Trombosit berkumpul di luka, sedikit gerak -->
           <g class="svg-pulse">
             <ellipse cx="50" cy="25" rx="9" ry="6" fill="#C8A2FF"/>
             <ellipse cx="40" cy="22" rx="6" ry="4" fill="#FFB6D9"/>
@@ -1028,7 +968,6 @@ td strong{color:#FFE066}
             <rect x="160" y="35" width="60" height="60" rx="8" fill="#FF6B8A" opacity=".85"/>
             <text x="190" y="62" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">JARINGAN</text>
             <text x="190" y="78" text-anchor="middle" fill="#fff" font-size="9">tubuh</text>
-            <!-- Panah O2 mengalir -->
             <path d="M82 55 L 155 55" stroke="#FFE066" stroke-width="3" fill="none" marker-end="url(#ao)" class="svg-dashflow"/>
             <defs><marker id="ao" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#FFE066"/></marker></defs>
             <text x="118" y="48" text-anchor="middle" fill="#FFE066" font-size="10" font-weight="900">O₂ →</text>
@@ -1052,7 +991,6 @@ td strong{color:#FFE066}
         <div class="svg-box">
           <svg viewBox="0 0 240 130" width="200">
             <rect x="40" y="25" width="14" height="70" rx="7" fill="#fff" opacity=".9"/>
-            <!-- Termometer bergerak -->
             <rect x="42" y="55" width="10" height="38" rx="5" fill="#FF6B8A" class="svg-pulse"/>
             <circle cx="47" cy="100" r="14" fill="#FF6B8A"/>
             <text x="47" y="20" text-anchor="middle" fill="#FFE066" font-size="10" font-weight="900">38°C</text>
@@ -1077,7 +1015,6 @@ td strong{color:#FFE066}
           <svg viewBox="0 0 240 130" width="200">
             <path d="M120 20 L 165 40 L 165 75 Q 165 105, 120 120 Q 75 105, 75 75 L 75 40 Z" fill="#FF6B8A" opacity=".9" stroke="#fff" stroke-width="2" class="svg-pulse"/>
             <text x="120" y="78" text-anchor="middle" fill="#fff" font-size="30" font-weight="900">🛡</text>
-            <!-- Kuman bergerak di sekitar -->
             <circle cx="55" cy="45" r="7" fill="#9B5DE5" class="svg-float"/>
             <text x="55" y="49" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">✕</text>
             <circle cx="185" cy="45" r="7" fill="#9B5DE5" class="svg-float" style="animation-delay:-1s"/>
@@ -1123,7 +1060,6 @@ td strong{color:#FFE066}
         <text x="100" y="48" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="10">"pabrik" sel darah</text>
         <ellipse cx="100" cy="180" rx="75" ry="130" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
 
-        <!-- Sel punca yang berdenyut -->
         <g class="svg-pulse" style="transform-origin:100px 180px">
           <circle cx="100" cy="180" r="42" fill="url(#stemG)" stroke="#fff" stroke-width="2"/>
           <text x="100" y="176" text-anchor="middle" fill="#1a1430" font-size="11" font-weight="900">SEL PUNCA</text>
@@ -1131,12 +1067,10 @@ td strong{color:#FFE066}
         </g>
         <text x="100" y="330" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">bisa jadi sel apa saja</text>
 
-        <!-- Path percabangan -->
         <path id="h1" d="M175 180 Q 350 100, 400 100" fill="none"/>
         <path id="h2" d="M175 180 L 400 180" fill="none"/>
         <path id="h3" d="M175 180 Q 350 260, 400 260" fill="none"/>
 
-        <!-- Garis cabang -->
         <use href="#h1" stroke="#FFB6D9" stroke-width="2.5"/>
         <use href="#h2" stroke="#7BE8C4" stroke-width="2.5"/>
         <use href="#h3" stroke="#FFE066" stroke-width="2.5"/>
@@ -1146,7 +1080,6 @@ td strong{color:#FFE066}
         <text x="212" y="165" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="900">dipecah</text>
         <text x="212" y="200" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="9">jadi 3 jalur</text>
 
-        <!-- Sel mengalir di sepanjang cabang -->
         <circle r="4" fill="#FFB6D9">
           <animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#h1"/></animateMotion>
         </circle>
@@ -1157,7 +1090,6 @@ td strong{color:#FFE066}
           <animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#h3"/></animateMotion>
         </circle>
 
-        <!-- Hasil: Eritrosit -->
         <g transform="translate(510,100)" class="svg-pulse-slow">
           <ellipse cx="0" cy="0" rx="58" ry="36" fill="#FF6B8A" stroke="#fff" stroke-width="1.5"/>
           <ellipse cx="0" cy="0" rx="26" ry="13" fill="#7A0B26" opacity=".4"/>
@@ -1168,7 +1100,6 @@ td strong{color:#FFE066}
         </g>
         <text x="340" y="130" fill="#FFB6D9" font-size="10" font-weight="800">+ EPO (dari ginjal)</text>
 
-        <!-- Hasil: Leukosit -->
         <g transform="translate(510,180)" class="svg-pulse-slow" style="animation-delay:-1s">
           <circle r="40" fill="#7BE8C4" stroke="#fff" stroke-width="1.5"/>
           <circle r="18" fill="#0EA5A0" opacity=".8"/>
@@ -1179,7 +1110,6 @@ td strong{color:#FFE066}
         </g>
         <text x="340" y="172" fill="#7BE8C4" font-size="10" font-weight="800">+ Sitokin</text>
 
-        <!-- Hasil: Trombosit -->
         <g transform="translate(510,260)" class="svg-pulse-slow" style="animation-delay:-2s">
           <ellipse rx="55" ry="28" fill="#FFE066" stroke="#fff" stroke-width="1.5"/>
           <text x="0" y="4" text-anchor="middle" fill="#1a1430" font-size="13" font-weight="900">TROMBOSIT</text>
@@ -1188,7 +1118,6 @@ td strong{color:#FFE066}
         </g>
         <text x="340" y="235" fill="#FFE066" font-size="10" font-weight="800">+ TPO (dari hati)</text>
 
-        <!-- Bahan baku -->
         <g transform="translate(750,180)">
           <rect x="-90" y="-80" width="180" height="160" rx="14" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
           <text x="0" y="-58" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">BAHAN BAKU</text>
@@ -1381,14 +1310,12 @@ td strong{color:#FFE066}
         <defs>
           <radialGradient id="centerG" cx="35%" cy="30%"><stop offset="0%" stop-color="#FFB6D9"/><stop offset="100%" stop-color="#9B5DE5"/></radialGradient>
         </defs>
-        <!-- Tengah pulse -->
         <g class="svg-pulse-slow" style="transform-origin:450px 190px">
           <circle cx="450" cy="190" r="70" fill="url(#centerG)" stroke="#fff" stroke-width="2"/>
           <text x="450" y="182" text-anchor="middle" fill="#1a1430" font-size="16" font-weight="900">DARAH</text>
           <text x="450" y="202" text-anchor="middle" fill="#1a1430" font-size="10" font-weight="700">jaringan ikat cair</text>
         </g>
 
-        <!-- Cabang-cabang (pulse juga) -->
         <path d="M382 152 Q 320 100, 260 100" stroke="#FFB6D9" stroke-width="2.5" fill="none"/>
         <g class="svg-pulse-slow" style="transform-origin:180px 100px;animation-delay:-.3s">
           <circle cx="180" cy="100" r="58" fill="#FFB6D9" stroke="#fff" stroke-width="1.5"/>
@@ -1501,20 +1428,6 @@ td strong{color:#FFE066}
 </nav>
 
 <script>
-/* ========== DESKTOP GATE ========== */
-(function(){
-  const gate = document.getElementById('desktopGate');
-  function check(){
-    if (window.innerWidth < 1024) {
-      gate.classList.add('show');
-    } else {
-      gate.classList.remove('show');
-    }
-  }
-  check();
-  window.addEventListener('resize', check);
-})();
-
 /* ========== PARTICLES ========== */
 (function(){
   const w=document.getElementById('particles');
@@ -1570,25 +1483,21 @@ document.addEventListener('touchend',e=>{
   if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy))dx<0?goTo(idx+1):goTo(idx-1);
 },{passive:true});
 
-/* ========== MOUSE DRAG (baru!) ========== */
+/* ========== MOUSE DRAG ========== */
 (function(){
-  let dragging=false, dragStartX=0, dragStartY=0, dragMoved=false;
+  let dragging=false, dragStartX=0, dragStartY=0;
   const DRAG_THRESHOLD = 90;
 
   stage.addEventListener('mousedown', e => {
-    if (e.target.closest('button, a, .b-tab')) return; // jangan drag kalau klik tombol
+    if (e.target.closest('button, a, .b-tab')) return;
     dragging = true;
     dragStartX = e.clientX;
     dragStartY = e.clientY;
-    dragMoved = false;
     stage.classList.add('dragging');
   });
 
   document.addEventListener('mousemove', e => {
     if (!dragging) return;
-    const dx = e.clientX - dragStartX;
-    const dy = e.clientY - dragStartY;
-    if (Math.abs(dx) > 8 || Math.abs(dy) > 8) dragMoved = true;
   });
 
   document.addEventListener('mouseup', e => {
@@ -1603,7 +1512,6 @@ document.addEventListener('touchend',e=>{
     }
   });
 
-  // Prevent text selection saat drag
   stage.addEventListener('dragstart', e => e.preventDefault());
 })();
 
