@@ -5,1094 +5,1405 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Darah — Kelompok 6 | Presentasi Biologi</title>
 <style>
-/* ============ RESET ============ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --pink:      #FFB6D9;
-  --pink-deep: #FF7EB6;
-  --coral:     #FF6B8A;
-  --red:       #E63956;
-  --lavender:  #C8A2FF;
-  --purple:    #9B5DE5;
-  --mint:      #7BE8C4;
-  --teal:      #3DCFB6;
-  --peach:     #FFC49B;
-  --sunny:     #FFE066;
-  --sky:       #88D4FF;
-  --blue:      #5B8DEF;
-  --cream:     #FFF8EC;
-  --dark:      #16112a;
-  --darker:    #0b0718;
-  --light:     #FFF8FB;
-  --glass:     rgba(255,255,255,.10);
-  --glass-2:   rgba(255,255,255,.05);
-  --border:    rgba(255,255,255,.22);
-  --border-hi: rgba(255,255,255,.45);
+  --pink:#FFB6D9;--coral:#FF6B8A;--red:#E63956;
+  --lavender:#C8A2FF;--purple:#9B5DE5;--mint:#7BE8C4;--teal:#3DCFB6;
+  --peach:#FFC49B;--sunny:#FFE066;--sky:#88D4FF;--blue:#5B8DEF;
+  --darker:#0b0718;--glass:rgba(255,255,255,.10);--border:rgba(255,255,255,.22);--border-hi:rgba(255,255,255,.45);
 }
+html,body{height:100%;width:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,'Quicksand',sans-serif;background:var(--darker);color:#fff;-webkit-font-smoothing:antialiased}
 
-html,body{
-  height:100%;width:100%;overflow:hidden;
-  font-family:'Segoe UI',system-ui,-apple-system,'Quicksand','Poppins',sans-serif;
-  background:var(--darker);
-  color:#fff;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-}
-
-/* ============================================================
-   BACKGROUND — ANIMATED MESH GRADIENT + BLOBS + PARTICLES
-   ============================================================ */
-#bgLayer{
-  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-}
-
-/* Layer 1: Slow hue-shift mesh */
-#meshGradient{
-  position:absolute;inset:-20%;
-  background:
-    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(255,126,182,.35), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 80% 30%, rgba(200,162,255,.35), transparent 60%),
-    radial-gradient(ellipse 50% 50% at 30% 80%, rgba(123,232,196,.28), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 75% 75%, rgba(136,212,255,.30), transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(255,224,102,.18), transparent 60%);
-  filter:blur(60px);
-  animation:meshDrift 30s ease-in-out infinite;
-}
-@keyframes meshDrift{
-  0%,100%{transform:translate(0,0) rotate(0deg) scale(1)}
-  25%{transform:translate(4%,-3%) rotate(2deg) scale(1.08)}
-  50%{transform:translate(-3%,4%) rotate(-2deg) scale(1.04)}
-  75%{transform:translate(3%,2%) rotate(1.5deg) scale(1.06)}
-}
-
-/* Layer 2: Morphing blobs */
-.blob{
-  position:absolute;border-radius:50%;
-  filter:blur(70px);
-  mix-blend-mode:screen;
-  animation:blobMorph 24s ease-in-out infinite;
-  will-change:transform,border-radius;
-}
+/* BACKGROUND */
+#bgLayer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#meshGradient{position:absolute;inset:-20%;background:
+  radial-gradient(ellipse 60% 50% at 20% 20%, rgba(255,126,182,.32), transparent 60%),
+  radial-gradient(ellipse 55% 45% at 80% 30%, rgba(200,162,255,.32), transparent 60%),
+  radial-gradient(ellipse 50% 50% at 30% 80%, rgba(123,232,196,.26), transparent 60%),
+  radial-gradient(ellipse 55% 45% at 75% 75%, rgba(136,212,255,.28), transparent 60%),
+  radial-gradient(ellipse 40% 40% at 50% 50%, rgba(255,224,102,.16), transparent 60%);
+  filter:blur(60px);animation:meshDrift 30s ease-in-out infinite}
+@keyframes meshDrift{0%,100%{transform:translate(0,0) rotate(0) scale(1)}25%{transform:translate(4%,-3%) rotate(2deg) scale(1.08)}50%{transform:translate(-3%,4%) rotate(-2deg) scale(1.04)}75%{transform:translate(3%,2%) rotate(1.5deg) scale(1.06)}}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);mix-blend-mode:screen;animation:blobMorph 24s ease-in-out infinite}
 .blob.b1{width:480px;height:480px;background:radial-gradient(circle,#FF6B8A,#9B5DE5);top:-12%;left:-8%;opacity:.5}
 .blob.b2{width:440px;height:440px;background:radial-gradient(circle,#7BE8C4,#5B8DEF);top:55%;right:-12%;opacity:.45;animation-delay:-6s}
 .blob.b3{width:400px;height:400px;background:radial-gradient(circle,#FFE066,#FF6B8A);bottom:-15%;left:30%;opacity:.4;animation-delay:-12s}
 .blob.b4{width:360px;height:360px;background:radial-gradient(circle,#C8A2FF,#FFB6D9);top:25%;left:45%;opacity:.35;animation-delay:-18s}
-@keyframes blobMorph{
-  0%,100%{transform:translate(0,0) scale(1);border-radius:50% 50% 50% 50%}
-  25%{transform:translate(50px,-40px) scale(1.12);border-radius:60% 40% 55% 45%}
-  50%{transform:translate(-40px,45px) scale(.94);border-radius:45% 55% 40% 60%}
-  75%{transform:translate(35px,25px) scale(1.06);border-radius:52% 48% 58% 42%}
-}
+@keyframes blobMorph{0%,100%{transform:translate(0,0) scale(1);border-radius:50% 50% 50% 50%}25%{transform:translate(50px,-40px) scale(1.12);border-radius:60% 40% 55% 45%}50%{transform:translate(-40px,45px) scale(.94);border-radius:45% 55% 40% 60%}75%{transform:translate(35px,25px) scale(1.06);border-radius:52% 48% 58% 42%}}
+#dotGrid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);opacity:.55}
+.particle{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,rgba(255,182,217,.6));box-shadow:0 0 12px rgba(255,182,217,.6);animation:particleFloat linear infinite}
+@keyframes particleFloat{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:.8}90%{opacity:.6}100%{transform:translateY(-20vh) translateX(40px);opacity:0}}
 
-/* Layer 3: Fine dot grid */
-#dotGrid{
-  position:absolute;inset:0;
-  background-image:radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);
-  background-size:32px 32px;
-  mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
-  -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 85%);
-  opacity:.55;
-}
-
-/* Layer 4: Floating particles (very light) */
-.particle{
-  position:absolute;border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #fff, rgba(255,182,217,.6));
-  box-shadow:0 0 12px rgba(255,182,217,.6);
-  animation:particleFloat linear infinite;
-  will-change:transform;
-}
-@keyframes particleFloat{
-  0%{transform:translateY(100vh) translateX(0);opacity:0}
-  10%{opacity:.8}
-  90%{opacity:.6}
-  100%{transform:translateY(-20vh) translateX(40px);opacity:0}
-}
-
-/* ============ PROGRESS ============ */
+/* PROGRESS */
 #progressWrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(255,255,255,.06);z-index:50}
-#progress{
-  height:100%;width:0%;
-  background:linear-gradient(90deg,#FFE066,#FF6B8A,#C8A2FF,#7BE8C4,#88D4FF,#FFB6D9);
-  background-size:400% 100%;
-  animation:shimmer 6s linear infinite;
-  transition:width .7s cubic-bezier(.65,.05,.36,1);
-  border-radius:0 4px 4px 0;
-  box-shadow:0 0 20px rgba(255,182,217,.65);
-}
+#progress{height:100%;width:0%;background:linear-gradient(90deg,#FFE066,#FF6B8A,#C8A2FF,#7BE8C4,#88D4FF,#FFB6D9);background-size:400% 100%;animation:shimmer 6s linear infinite;transition:width .7s cubic-bezier(.65,.05,.36,1);border-radius:0 4px 4px 0;box-shadow:0 0 20px rgba(255,182,217,.65)}
 @keyframes shimmer{0%{background-position:0% 50%}100%{background-position:400% 50%}}
 
-/* ============ STAGE / SLIDE ============ */
+/* SLIDE */
 #stage{position:relative;width:100vw;height:100vh;z-index:1}
-
-.slide{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  padding:clamp(24px,4vw,64px);
-  opacity:0;visibility:hidden;
-  transform:translateY(30px) scale(.97);
-  filter:blur(8px);
-  transition:
-    opacity .75s cubic-bezier(.22,.9,.32,1),
-    transform .75s cubic-bezier(.22,.9,.32,1),
-    filter .75s cubic-bezier(.22,.9,.32,1),
-    visibility .75s;
-  overflow-y:auto;overflow-x:hidden;
-}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(20px,3.5vw,54px);opacity:0;visibility:hidden;transform:translateY(30px) scale(.97);filter:blur(8px);transition:opacity .75s cubic-bezier(.22,.9,.32,1),transform .75s cubic-bezier(.22,.9,.32,1),filter .75s cubic-bezier(.22,.9,.32,1),visibility .75s;overflow-y:auto;overflow-x:hidden}
 .slide.active{opacity:1;visibility:visible;transform:translateY(0) scale(1);filter:blur(0)}
 .slide.prev{transform:translateY(-30px) scale(.97)}
+.slide::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.32) 100%);z-index:0}
+.slide>.content{position:relative;z-index:1}
+.content{width:100%;max-width:1240px;text-align:center}
 
-/* Subtle vignette per slide */
-.slide::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.35) 100%);
-  z-index:0;
-}
-.slide > .content{position:relative;z-index:1}
-
-.content{width:100%;max-width:1200px;text-align:center}
-
-/* ============ TIPOGRAFI ============ */
-h1{
-  font-size:clamp(2.4rem,7vw,5.8rem);font-weight:900;line-height:1.02;
-  letter-spacing:-2.5px;
-  background:linear-gradient(135deg,#fff 0%,#FFE066 25%,#FFB6D9 50%,#C8A2FF 75%,#7BE8C4 100%);
-  background-size:250% auto;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  margin-bottom:16px;
-  animation:textShine 5s linear infinite;
-  filter:drop-shadow(0 6px 30px rgba(255,182,217,.4));
-}
+/* TIPOGRAFI */
+h1{font-size:clamp(2.2rem,6.5vw,5.4rem);font-weight:900;line-height:1.02;letter-spacing:-2.5px;background:linear-gradient(135deg,#fff 0%,#FFE066 25%,#FFB6D9 50%,#C8A2FF 75%,#7BE8C4 100%);background-size:250% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;animation:textShine 5s linear infinite;filter:drop-shadow(0 6px 30px rgba(255,182,217,.4))}
 @keyframes textShine{0%{background-position:0% center}100%{background-position:250% center}}
-
-h2{
-  font-size:clamp(1.7rem,4.4vw,3rem);font-weight:900;margin-bottom:20px;line-height:1.12;
-  background:linear-gradient(135deg,#fff 0%,#FFE066 40%,#FFB6D9 75%,#C8A2FF 100%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  letter-spacing:-.6px;
-}
-h3{font-size:clamp(1rem,1.9vw,1.28rem);font-weight:800;margin-bottom:10px;color:#FFE066;letter-spacing:-.2px}
-h4{font-size:clamp(.9rem,1.55vw,1.05rem);font-weight:800;color:#FFB6D9;margin-bottom:6px}
-
-p,li{font-size:clamp(.9rem,1.6vw,1.08rem);line-height:1.7;color:rgba(255,255,255,.92)}
+h2{font-size:clamp(1.5rem,3.9vw,2.6rem);font-weight:900;margin-bottom:16px;line-height:1.12;background:linear-gradient(135deg,#fff 0%,#FFE066 40%,#FFB6D9 75%,#C8A2FF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.6px}
+h3{font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:800;margin-bottom:8px;color:#FFE066}
+h4{font-size:clamp(.88rem,1.5vw,1rem);font-weight:800;color:#FFB6D9;margin-bottom:5px}
+p,li{font-size:clamp(.85rem,1.5vw,1.02rem);line-height:1.65;color:rgba(255,255,255,.92)}
 strong{color:#FFE066;font-weight:800}
 em{color:#FFB6D9;font-style:normal;font-weight:700}
-
 ul.bullet{list-style:none;padding:0}
-ul.bullet li{
-  position:relative;padding-left:22px;margin-bottom:8px;
-}
-ul.bullet li::before{
-  content:"";position:absolute;left:6px;top:.65em;
-  width:7px;height:7px;border-radius:50%;
-  background:linear-gradient(135deg,#FFE066,#FF6B8A);
-  box-shadow:0 0 10px rgba(255,182,217,.65);
-}
+ul.bullet li{position:relative;padding-left:20px;margin-bottom:6px;font-size:clamp(.8rem,1.35vw,.94rem)}
+ul.bullet li::before{content:"";position:absolute;left:4px;top:.6em;width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#FFE066,#FF6B8A);box-shadow:0 0 10px rgba(255,182,217,.65)}
 
-/* ============ ANIMASI MASUK ============ */
-.slide.active .anim      {animation:fadeInUp .85s cubic-bezier(.2,.9,.3,1) both;animation-delay:var(--d,0s)}
+/* ANIMASI */
+.slide.active .anim{animation:fadeInUp .85s cubic-bezier(.2,.9,.3,1) both;animation-delay:var(--d,0s)}
 .slide.active .anim-scale{animation:popIn .8s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s)}
-.slide.active .anim-left {animation:slideL .85s cubic-bezier(.2,.9,.3,1) both;animation-delay:var(--d,0s)}
+.slide.active .anim-left{animation:slideL .85s cubic-bezier(.2,.9,.3,1) both;animation-delay:var(--d,0s)}
 .slide.active .anim-right{animation:slideR .85s cubic-bezier(.2,.9,.3,1) both;animation-delay:var(--d,0s)}
-.slide.active .anim-rot  {animation:rotIn .9s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0s)}
-
 @keyframes fadeInUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
 @keyframes popIn{from{opacity:0;transform:scale(.72)}to{opacity:1;transform:scale(1)}}
 @keyframes slideL{from{opacity:0;transform:translateX(-46px)}to{opacity:1;transform:translateX(0)}}
 @keyframes slideR{from{opacity:0;transform:translateX(46px)}to{opacity:1;transform:translateX(0)}}
-@keyframes rotIn{from{opacity:0;transform:rotate(-6deg) scale(.85)}to{opacity:1;transform:rotate(0) scale(1)}}
 
-/* ============ GRID ============ */
-.grid{display:grid;gap:clamp(14px,2vw,22px);margin-top:22px}
+/* GRID */
+.grid{display:grid;gap:clamp(12px,1.7vw,18px);margin-top:16px}
 .g-2{grid-template-columns:repeat(2,1fr)}
 .g-3{grid-template-columns:repeat(3,1fr)}
 .g-4{grid-template-columns:repeat(4,1fr)}
-.g-5{grid-template-columns:repeat(5,1fr)}
-@media (max-width:880px){.g-3,.g-4,.g-5{grid-template-columns:repeat(2,1fr)}.g-2{grid-template-columns:1fr}}
-@media (max-width:540px){.g-3,.g-4,.g-5{grid-template-columns:1fr}}
+@media (max-width:980px){.g-3,.g-4{grid-template-columns:repeat(2,1fr)}.g-2{grid-template-columns:1fr}}
+@media (max-width:560px){.g-3,.g-4{grid-template-columns:1fr}}
 
-/* ============ CARD ============ */
-.card{
-  background:var(--glass);
-  border:1.5px solid var(--border);
-  border-radius:22px;
-  padding:clamp(16px,2.2vw,26px);
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s,box-shadow .4s,background .3s;
-  text-align:left;position:relative;overflow:hidden;
-  will-change:transform;
-}
-.card::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,transparent,var(--c1,#FF7EB6),var(--c2,#C8A2FF),transparent);
-  opacity:0;transition:opacity .4s;
-}
-.card::after{
-  content:"";position:absolute;inset:0;border-radius:22px;
-  background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.14), transparent 45%);
-  opacity:0;transition:opacity .4s;pointer-events:none;
-}
-.card:hover{
-  transform:translateY(-8px) scale(1.015);
-  border-color:var(--border-hi);
-  background:rgba(255,255,255,.13);
-  box-shadow:0 26px 55px -20px var(--glow,rgba(255,126,182,.55));
-}
-.card:hover::before{opacity:1}
-.card:hover::after{opacity:1}
-.card .icon{
-  font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:10px;display:block;line-height:1;
-  filter:drop-shadow(0 4px 12px rgba(255,182,217,.4));
-  transition:transform .4s;
-}
-.card:hover .icon{transform:scale(1.15) rotate(-6deg)}
-.card h3{color:#fff;font-size:clamp(.95rem,1.55vw,1.15rem);margin-bottom:8px}
-.card p{font-size:clamp(.82rem,1.4vw,.98rem);line-height:1.6;color:rgba(255,255,255,.88)}
+/* CARD */
+.card{background:var(--glass);border:1.5px solid var(--border);border-radius:20px;padding:clamp(14px,1.9vw,22px);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s,box-shadow .4s,background .3s;text-align:left;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--c1,#FF7EB6),var(--c2,#C8A2FF),transparent);opacity:0;transition:opacity .4s}
+.card::after{content:"";position:absolute;inset:0;border-radius:20px;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.13),transparent 45%);opacity:0;transition:opacity .4s;pointer-events:none}
+.card:hover{transform:translateY(-7px) scale(1.012);border-color:var(--border-hi);background:rgba(255,255,255,.13);box-shadow:0 24px 50px -20px var(--glow,rgba(255,126,182,.55))}
+.card:hover::before{opacity:1}.card:hover::after{opacity:1}
+.card .icon{font-size:clamp(1.5rem,2.6vw,2rem);margin-bottom:8px;display:block;line-height:1;transition:transform .4s}
+.card:hover .icon{transform:scale(1.12) rotate(-6deg)}
+.card h3{color:#fff;font-size:clamp(.9rem,1.45vw,1.08rem);margin-bottom:6px}
+.card p{font-size:clamp(.78rem,1.3vw,.92rem);line-height:1.55;color:rgba(255,255,255,.88)}
 
-.c-pink  {--c1:#FFB6D9;--c2:#FF7EB6;--glow:rgba(255,126,182,.55)}
-.c-coral {--c1:#FF6B8A;--c2:#E63956;--glow:rgba(255,107,138,.55)}
-.c-lav   {--c1:#C8A2FF;--c2:#9B5DE5;--glow:rgba(200,162,255,.55)}
-.c-purple{--c1:#9B5DE5;--c2:#6B21A8;--glow:rgba(155,93,229,.55)}
-.c-mint  {--c1:#7BE8C4;--c2:#3DCFB6;--glow:rgba(123,232,196,.55)}
-.c-teal  {--c1:#3DCFB6;--c2:#0EA5A0;--glow:rgba(61,207,182,.55)}
-.c-peach {--c1:#FFC49B;--c2:#FF8A5B;--glow:rgba(255,196,155,.55)}
-.c-sunny {--c1:#FFE066;--c2:#FFB627;--glow:rgba(255,224,102,.55)}
-.c-sky   {--c1:#88D4FF;--c2:#5B8DEF;--glow:rgba(136,212,255,.55)}
-.c-blue  {--c1:#5B8DEF;--c2:#3B5BDB;--glow:rgba(91,141,239,.55)}
+.c-pink{--c1:#FFB6D9;--c2:#FF7EB6;--glow:rgba(255,126,182,.55)}
+.c-coral{--c1:#FF6B8A;--c2:#E63956;--glow:rgba(255,107,138,.55)}
+.c-lav{--c1:#C8A2FF;--c2:#9B5DE5;--glow:rgba(200,162,255,.55)}
+.c-mint{--c1:#7BE8C4;--c2:#3DCFB6;--glow:rgba(123,232,196,.55)}
+.c-peach{--c1:#FFC49B;--c2:#FF8A5B;--glow:rgba(255,196,155,.55)}
+.c-sunny{--c1:#FFE066;--c2:#FFB627;--glow:rgba(255,224,102,.55)}
+.c-sky{--c1:#88D4FF;--c2:#5B8DEF;--glow:rgba(136,212,255,.55)}
 
-/* ============ BADGE ============ */
-.badge{
-  display:inline-block;padding:7px 18px;border-radius:100px;
-  font-size:clamp(.7rem,1.2vw,.82rem);font-weight:800;letter-spacing:2px;
-  text-transform:uppercase;margin-bottom:12px;
-}
-.b-pink   {background:rgba(255,182,217,.15);color:#FFB6D9;border:1.5px solid rgba(255,182,217,.45)}
-.b-sunny  {background:rgba(255,224,102,.15);color:#FFE066;border:1.5px solid rgba(255,224,102,.45)}
-.b-lav    {background:rgba(200,162,255,.15);color:#C8A2FF;border:1.5px solid rgba(200,162,255,.45)}
-.b-mint   {background:rgba(123,232,196,.15);color:#7BE8C4;border:1.5px solid rgba(123,232,196,.45)}
-.b-sky    {background:rgba(136,212,255,.15);color:#88D4FF;border:1.5px solid rgba(136,212,255,.45)}
-.b-coral  {background:rgba(255,107,138,.15);color:#FF8FA8;border:1.5px solid rgba(255,107,138,.45)}
+/* BADGE */
+.badge{display:inline-block;padding:6px 16px;border-radius:100px;font-size:clamp(.66rem,1.1vw,.78rem);font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.b-pink{background:rgba(255,182,217,.15);color:#FFB6D9;border:1.5px solid rgba(255,182,217,.45)}
+.b-sunny{background:rgba(255,224,102,.15);color:#FFE066;border:1.5px solid rgba(255,224,102,.45)}
+.b-lav{background:rgba(200,162,255,.15);color:#C8A2FF;border:1.5px solid rgba(200,162,255,.45)}
+.b-mint{background:rgba(123,232,196,.15);color:#7BE8C4;border:1.5px solid rgba(123,232,196,.45)}
+.b-sky{background:rgba(136,212,255,.15);color:#88D4FF;border:1.5px solid rgba(136,212,255,.45)}
+.b-coral{background:rgba(255,107,138,.15);color:#FF8FA8;border:1.5px solid rgba(255,107,138,.45)}
 
-/* ============ TITLE ============ */
-.title-badge{
-  display:inline-block;padding:9px 26px;border-radius:100px;
-  background:linear-gradient(135deg,rgba(255,224,102,.13),rgba(255,182,217,.13));
-  border:1.5px solid rgba(255,224,102,.45);color:#FFE066;
-  font-weight:800;letter-spacing:4px;font-size:clamp(.7rem,1.4vw,.88rem);
-  margin-bottom:22px;text-transform:uppercase;
-  box-shadow:0 0 30px rgba(255,224,102,.2);
-  backdrop-filter:blur(10px);
+/* GAMPANGNYA BOX — the star of this version */
+.easy{
+  margin-top:14px;padding:clamp(14px,1.9vw,20px);
+  background:linear-gradient(135deg,rgba(255,224,102,.16),rgba(255,182,217,.16));
+  border:2px solid rgba(255,224,102,.55);border-radius:18px;
+  text-align:left;position:relative;
+  box-shadow:0 12px 34px -18px rgba(255,224,102,.6);
 }
-.heart-svg{
-  width:clamp(130px,18vw,180px);height:auto;margin:0 auto 20px;display:block;
-  filter:drop-shadow(0 10px 40px rgba(255,126,182,.65));
-  animation:heartbeat 2.4s ease-in-out infinite;
+.easy::before{
+  content:"💡 GAMPANGNYA...";position:absolute;top:-11px;left:18px;
+  background:linear-gradient(135deg,#FFE066,#FFB627);
+  color:#1a1430;font-size:.7rem;font-weight:900;letter-spacing:1.5px;
+  padding:4px 12px;border-radius:100px;box-shadow:0 4px 12px rgba(255,224,102,.5);
 }
-@keyframes heartbeat{
-  0%,100%{transform:scale(1)}
-  12%{transform:scale(1.1)}
-  24%{transform:scale(.97)}
-  36%{transform:scale(1.06)}
-  48%{transform:scale(1)}
+.easy p{font-size:clamp(.83rem,1.45vw,.98rem);line-height:1.7;color:rgba(255,255,255,.95)}
+.easy p+p{margin-top:6px}
+.easy strong{color:#FFE066}
+.easy em{color:#FFB6D9;font-style:normal;font-weight:800}
+.easy .real{
+  display:inline-block;margin-top:8px;padding:6px 14px;border-radius:10px;
+  background:rgba(255,107,138,.22);border:1px solid rgba(255,107,138,.5);
+  font-size:.78rem;font-weight:700;color:#FFB6D9;
 }
-.title-sub{font-size:clamp(1.05rem,2.1vw,1.5rem);color:rgba(255,255,255,.92);margin-top:8px;font-weight:400;letter-spacing:.5px}
-.title-group{
-  display:inline-block;margin-top:22px;padding:13px 30px;border-radius:18px;
-  background:linear-gradient(135deg,rgba(200,162,255,.14),rgba(255,182,217,.14));
-  border:1.5px solid rgba(200,162,255,.4);
-  font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:800;letter-spacing:2px;color:#C8A2FF;
-  box-shadow:0 0 40px rgba(200,162,255,.25);
-  backdrop-filter:blur(10px);
+
+/* CONTOH NYATA BOX */
+.realbox{
+  margin-top:12px;padding:14px 18px;
+  background:linear-gradient(135deg,rgba(136,212,255,.14),rgba(123,232,196,.14));
+  border:2px solid rgba(136,212,255,.5);border-radius:16px;
+  text-align:left;position:relative;
 }
+.realbox::before{
+  content:"🌍 CONTOH NYATA";position:absolute;top:-11px;left:18px;
+  background:linear-gradient(135deg,#88D4FF,#5B8DEF);
+  color:#0b0718;font-size:.7rem;font-weight:900;letter-spacing:1.5px;
+  padding:4px 12px;border-radius:100px;
+}
+.realbox p{font-size:clamp(.8rem,1.4vw,.94rem);line-height:1.65}
+.realbox strong{color:#88D4FF}
+
+/* TITLE */
+.title-badge{display:inline-block;padding:9px 26px;border-radius:100px;background:linear-gradient(135deg,rgba(255,224,102,.13),rgba(255,182,217,.13));border:1.5px solid rgba(255,224,102,.45);color:#FFE066;font-weight:800;letter-spacing:4px;font-size:clamp(.7rem,1.35vw,.85rem);margin-bottom:18px;text-transform:uppercase;backdrop-filter:blur(10px)}
+.heart-svg{width:clamp(110px,15vw,155px);height:auto;margin:0 auto 16px;display:block;filter:drop-shadow(0 10px 40px rgba(255,126,182,.65));animation:heartbeat 2.4s ease-in-out infinite}
+@keyframes heartbeat{0%,100%{transform:scale(1)}12%{transform:scale(1.1)}24%{transform:scale(.97)}36%{transform:scale(1.06)}48%{transform:scale(1)}}
+.title-sub{font-size:clamp(1rem,1.9vw,1.35rem);color:rgba(255,255,255,.92);margin-top:6px;font-weight:400}
+.title-group{display:inline-block;margin-top:18px;padding:11px 28px;border-radius:16px;background:linear-gradient(135deg,rgba(200,162,255,.14),rgba(255,182,217,.14));border:1.5px solid rgba(200,162,255,.4);font-size:clamp(.9rem,1.7vw,1.12rem);font-weight:800;letter-spacing:2px;color:#C8A2FF;backdrop-filter:blur(10px)}
 .title-group span{color:#FFE066;font-weight:900}
 
-/* ============ MEMBER CARDS ============ */
-.members{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:14px;
-  margin-top:30px;max-width:1080px;margin-left:auto;margin-right:auto;
-}
-@media (max-width:880px){.members{grid-template-columns:repeat(2,1fr)}}
+/* MEMBER */
+.members{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:24px;max-width:1080px;margin-left:auto;margin-right:auto}
+@media (max-width:980px){.members{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:520px){.members{grid-template-columns:1fr}}
-.member{
-  background:var(--glass);border:1.5px solid var(--border);
-  border-radius:18px;padding:18px 12px;
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  transition:transform .4s cubic-bezier(.34,1.4,.64,1),box-shadow .4s,border-color .3s;
-  text-align:center;position:relative;overflow:hidden;
-}
-.member::before{
-  content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:conic-gradient(from 0deg, transparent, rgba(255,255,255,.08), transparent 30%);
-  animation:memberShine 6s linear infinite;pointer-events:none;
-}
-@keyframes memberShine{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-.member:hover{transform:translateY(-8px) scale(1.04);border-color:var(--border-hi);box-shadow:0 22px 45px -18px rgba(255,126,182,.6)}
-.member .avatar{
-  width:58px;height:58px;border-radius:50%;margin:0 auto 12px;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:1.45rem;color:#1a1430;
-  box-shadow:0 8px 22px rgba(0,0,0,.35);
-  transition:transform .4s;
-}
+.member{background:var(--glass);border:1.5px solid var(--border);border-radius:16px;padding:14px 10px;backdrop-filter:blur(14px);transition:transform .4s cubic-bezier(.34,1.4,.64,1),box-shadow .4s,border-color .3s;text-align:center}
+.member:hover{transform:translateY(-7px) scale(1.04);border-color:var(--border-hi);box-shadow:0 22px 45px -18px rgba(255,126,182,.6)}
+.member .avatar{width:54px;height:54px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.35rem;color:#1a1430;box-shadow:0 8px 22px rgba(0,0,0,.35);transition:transform .4s}
 .member:hover .avatar{transform:scale(1.1) rotate(8deg)}
 .member:nth-child(1) .avatar{background:linear-gradient(135deg,#FFE066,#FFB627)}
 .member:nth-child(2) .avatar{background:linear-gradient(135deg,#FFB6D9,#FF6B8A)}
 .member:nth-child(3) .avatar{background:linear-gradient(135deg,#C8A2FF,#9B5DE5)}
 .member:nth-child(4) .avatar{background:linear-gradient(135deg,#7BE8C4,#3DCFB6)}
 .member:nth-child(5) .avatar{background:linear-gradient(135deg,#88D4FF,#5B8DEF)}
-.member .name{font-size:clamp(.78rem,1.3vw,.9rem);font-weight:700;color:#fff;line-height:1.35;position:relative;z-index:1}
-.member .role{font-size:.68rem;color:rgba(255,255,255,.55);margin-top:4px;letter-spacing:1.5px;text-transform:uppercase;position:relative;z-index:1}
+.member .name{font-size:clamp(.72rem,1.2vw,.85rem);font-weight:700;color:#fff;line-height:1.3}
+.member .role{font-size:.62rem;color:rgba(255,255,255,.55);margin-top:3px;letter-spacing:1.4px;text-transform:uppercase}
 
-/* ============ TABUNG REAKSI ============ */
-.tube-wrap{display:flex;justify-content:center;align-items:center;gap:clamp(20px,5vw,60px);flex-wrap:wrap;margin-top:24px}
-.legend{text-align:left;display:flex;flex-direction:column;gap:12px}
-.legend-item{
-  display:flex;align-items:center;gap:14px;padding:13px 20px;
-  background:var(--glass);border:1.5px solid var(--border);border-radius:16px;
-  backdrop-filter:blur(12px);min-width:290px;
-  transition:transform .35s,border-color .3s;
-}
-.legend-item:hover{transform:translateX(8px);border-color:var(--border-hi)}
-.dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;box-shadow:0 0 14px currentColor}
-.dot-sunny{background:#FFE066;color:#FFE066}
-.dot-white{background:#FFF8EC;color:#FFF8EC}
-.dot-pink{background:#FF7EB6;color:#FF7EB6}
-.legend-text strong{display:block;font-size:.95rem;color:#fff}
-.legend-text span{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.4}
+/* LEGEND */
+.legend{text-align:left;display:flex;flex-direction:column;gap:10px}
+.legend-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--glass);border:1.5px solid var(--border);border-radius:14px;backdrop-filter:blur(12px);min-width:260px;transition:transform .35s,border-color .3s}
+.legend-item:hover{transform:translateX(6px);border-color:var(--border-hi)}
+.dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;box-shadow:0 0 12px currentColor}
+.dot-sunny{background:#FFE066;color:#FFE066}.dot-white{background:#FFF8EC;color:#FFF8EC}.dot-pink{background:#FF7EB6;color:#FF7EB6}
+.legend-text strong{display:block;font-size:.88rem;color:#fff}
+.legend-text span{font-size:.74rem;color:rgba(255,255,255,.7);line-height:1.35}
 
-/* ============ STATS ============ */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:24px}
-.stat{
-  background:var(--glass);border:1.5px solid var(--border);
-  border-radius:18px;padding:20px 14px;backdrop-filter:blur(12px);text-align:center;
-  transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s;
-}
-.stat:hover{transform:translateY(-6px) scale(1.03);border-color:var(--border-hi)}
-.stat .val{
-  font-size:clamp(1.3rem,2.7vw,1.95rem);font-weight:900;display:block;line-height:1.1;
-  background:linear-gradient(135deg,#FFE066,#FFB6D9,#C8A2FF);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-}
-.stat .lbl{font-size:clamp(.68rem,1.15vw,.8rem);color:rgba(255,255,255,.75);margin-top:8px;letter-spacing:1.4px;text-transform:uppercase}
+/* STAT */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:18px}
+.stat{background:var(--glass);border:1.5px solid var(--border);border-radius:16px;padding:16px 12px;backdrop-filter:blur(12px);text-align:center;transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s}
+.stat:hover{transform:translateY(-5px) scale(1.03);border-color:var(--border-hi)}
+.stat .val{font-size:clamp(1.15rem,2.4vw,1.75rem);font-weight:900;display:block;line-height:1.1;background:linear-gradient(135deg,#FFE066,#FFB6D9,#C8A2FF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat .lbl{font-size:clamp(.62rem,1.05vw,.74rem);color:rgba(255,255,255,.75);margin-top:6px;letter-spacing:1.3px;text-transform:uppercase}
 
-/* ============ TABEL ============ */
-.tbl-wrap{
-  margin-top:20px;border-radius:18px;overflow:hidden;
-  border:1.5px solid var(--border);background:var(--glass);
-  backdrop-filter:blur(12px);
-}
-table{width:100%;border-collapse:collapse;font-size:clamp(.78rem,1.4vw,.98rem)}
-th{
-  background:linear-gradient(135deg,rgba(255,126,182,.35),rgba(200,162,255,.35));
-  padding:13px 12px;text-align:left;font-weight:800;color:#fff;
-  letter-spacing:.6px;font-size:clamp(.72rem,1.3vw,.86rem);text-transform:uppercase;
-}
-td{padding:11px 12px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.92);vertical-align:top}
+/* TABLE */
+.tbl-wrap{margin-top:14px;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);background:var(--glass);backdrop-filter:blur(12px)}
+table{width:100%;border-collapse:collapse;font-size:clamp(.72rem,1.22vw,.9rem)}
+th{background:linear-gradient(135deg,rgba(255,126,182,.35),rgba(200,162,255,.35));padding:11px 10px;text-align:left;font-weight:800;color:#fff;letter-spacing:.6px;font-size:clamp(.66rem,1.1vw,.78rem);text-transform:uppercase}
+td{padding:10px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.92);vertical-align:top}
 tr:nth-child(even) td{background:rgba(255,255,255,.03)}
 tr:hover td{background:rgba(255,224,102,.08)}
 td strong{color:#FFE066}
 
-/* ============ TIMELINE ============ */
-.timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:24px;position:relative}
-.timeline::before{
-  content:"";position:absolute;top:30px;left:5%;right:5%;height:2px;
-  background:linear-gradient(90deg,#FFE066,#FF6B8A,#C8A2FF,#7BE8C4,#88D4FF);
-  opacity:.4;border-radius:2px;z-index:0;
-}
-@media (max-width:880px){.timeline{grid-template-columns:repeat(2,1fr)}.timeline::before{display:none}}
+/* TIMELINE */
+.timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+@media (max-width:980px){.timeline{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:540px){.timeline{grid-template-columns:1fr}}
-.step{
-  background:var(--glass);border:1.5px solid var(--border);border-radius:18px;
-  padding:20px 14px;text-align:center;backdrop-filter:blur(12px);
-  transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s;
-  position:relative;z-index:1;
-}
-.step:hover{transform:translateY(-8px) scale(1.04);border-color:rgba(255,224,102,.6)}
-.step .num{
-  width:46px;height:46px;margin:0 auto 12px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:1.15rem;color:#1a1430;
-  box-shadow:0 8px 22px rgba(0,0,0,.35);
-}
+.step{background:var(--glass);border:1.5px solid var(--border);border-radius:16px;padding:14px 10px;text-align:center;backdrop-filter:blur(12px);transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s;position:relative}
+.step:hover{transform:translateY(-7px) scale(1.04);border-color:rgba(255,224,102,.6)}
+.step .num{width:38px;height:38px;margin:0 auto 8px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.95rem;color:#1a1430;box-shadow:0 8px 22px rgba(0,0,0,.35)}
 .step:nth-child(1) .num{background:linear-gradient(135deg,#FFE066,#FFB627)}
 .step:nth-child(2) .num{background:linear-gradient(135deg,#FFB6D9,#FF7EB6)}
 .step:nth-child(3) .num{background:linear-gradient(135deg,#C8A2FF,#9B5DE5)}
 .step:nth-child(4) .num{background:linear-gradient(135deg,#7BE8C4,#3DCFB6)}
 .step:nth-child(5) .num{background:linear-gradient(135deg,#88D4FF,#5B8DEF)}
-.step h4{color:#FFE066;margin-bottom:8px}
-.step p{font-size:clamp(.73rem,1.22vw,.86rem);line-height:1.5;color:rgba(255,255,255,.85)}
+.step h4{color:#FFE066;margin-bottom:5px;font-size:clamp(.76rem,1.25vw,.88rem)}
+.step p{font-size:clamp(.66rem,1.1vw,.76rem);line-height:1.45;color:rgba(255,255,255,.85)}
+.step svg{display:block;margin:0 auto 6px;max-width:70px}
 
-/* ============ GOLONGAN DARAH ============ */
-.blood-tabs{display:flex;justify-content:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
-.b-tab{
-  width:clamp(62px,9vw,80px);height:clamp(62px,9vw,80px);border-radius:50%;
-  border:2px solid rgba(255,255,255,.25);background:var(--glass);color:#fff;
-  font-weight:900;font-size:clamp(1.2rem,2.2vw,1.6rem);cursor:pointer;
-  transition:all .4s cubic-bezier(.34,1.5,.64,1);backdrop-filter:blur(12px);
-  display:flex;align-items:center;justify-content:center;font-family:inherit;
-}
+/* BLOOD TABS */
+.blood-tabs{display:flex;justify-content:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.b-tab{width:clamp(56px,7.5vw,72px);height:clamp(56px,7.5vw,72px);border-radius:50%;border:2px solid rgba(255,255,255,.25);background:var(--glass);color:#fff;font-weight:900;font-size:clamp(1.1rem,2vw,1.4rem);cursor:pointer;transition:all .4s cubic-bezier(.34,1.5,.64,1);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;font-family:inherit}
 .b-tab:hover{transform:scale(1.12) rotate(-6deg);border-color:#FFE066;box-shadow:0 0 28px rgba(255,224,102,.45)}
-.b-tab.active{
-  background:linear-gradient(135deg,#FF6B8A,#C8A2FF);border-color:transparent;
-  box-shadow:0 12px 32px rgba(255,107,138,.55);transform:scale(1.16);
-}
-.b-panel{
-  background:var(--glass);border:1.5px solid var(--border);border-radius:22px;
-  padding:clamp(20px,3vw,32px);backdrop-filter:blur(14px);text-align:left;
-  max-width:760px;margin:0 auto;
-}
-.b-panel h3{font-size:clamp(1.2rem,2.3vw,1.55rem);color:#FFE066;margin-bottom:14px}
+.b-tab.active{background:linear-gradient(135deg,#FF6B8A,#C8A2FF);border-color:transparent;box-shadow:0 12px 32px rgba(255,107,138,.55);transform:scale(1.16)}
+.b-panel{background:var(--glass);border:1.5px solid var(--border);border-radius:20px;padding:clamp(16px,2.4vw,24px);backdrop-filter:blur(14px);text-align:left;max-width:760px;margin:0 auto}
+.b-panel h3{font-size:clamp(1.1rem,2vw,1.35rem);color:#FFE066;margin-bottom:12px}
 .b-panel ul{list-style:none;padding:0}
-.b-panel li{padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.12);font-size:clamp(.85rem,1.5vw,1rem);line-height:1.55}
+.b-panel li{padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.12);font-size:clamp(.8rem,1.38vw,.94rem);line-height:1.5}
 .b-panel li:last-child{border-bottom:none}
 .b-panel li strong{color:#FFB6D9}
 
-/* ============ FACT ============ */
-.fact{
-  background:var(--glass);border:1.5px solid var(--border);border-radius:20px;
-  padding:clamp(14px,2vw,22px);backdrop-filter:blur(12px);text-align:left;
-  display:flex;gap:16px;align-items:flex-start;
-  transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s;
-}
-.fact:hover{transform:translateY(-6px) rotate(-1deg);border-color:var(--border-hi)}
-.fact .fnum{
-  font-size:clamp(1.5rem,2.5vw,1.95rem);font-weight:900;line-height:1;flex-shrink:0;
-  background:linear-gradient(135deg,#FFE066,#FFB6D9,#C8A2FF);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-}
-.fact p{font-size:clamp(.83rem,1.4vw,.97rem);line-height:1.6}
+/* FACT */
+.fact{background:var(--glass);border:1.5px solid var(--border);border-radius:18px;padding:clamp(12px,1.8vw,18px);backdrop-filter:blur(12px);text-align:left;display:flex;gap:12px;align-items:center;transition:transform .4s cubic-bezier(.34,1.4,.64,1),border-color .3s}
+.fact:hover{transform:translateY(-5px) rotate(-.8deg);border-color:var(--border-hi)}
+.fact .fic{font-size:1.6rem;flex-shrink:0}
+.fact p{font-size:clamp(.78rem,1.3vw,.9rem);line-height:1.5}
 
-/* ============ NAV ============ */
-#nav{
-  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-  display:flex;align-items:center;gap:14px;z-index:40;
-  background:rgba(22,17,42,.72);border:1.5px solid var(--border);
-  border-radius:100px;padding:9px 16px;
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  box-shadow:0 14px 44px rgba(0,0,0,.5);
-}
-.nav-btn{
-  width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
-  background:linear-gradient(135deg,#FF6B8A,#C8A2FF);color:#fff;font-size:1.2rem;
-  display:flex;align-items:center;justify-content:center;font-family:inherit;
-  transition:transform .3s cubic-bezier(.34,1.5,.64,1),box-shadow .3s,opacity .3s;
-  box-shadow:0 8px 22px rgba(255,107,138,.4);
-}
+/* NAV */
+#nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:40;background:rgba(22,17,42,.72);border:1.5px solid var(--border);border-radius:100px;padding:8px 14px;backdrop-filter:blur(20px);box-shadow:0 14px 44px rgba(0,0,0,.5)}
+.nav-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#FF6B8A,#C8A2FF);color:#fff;font-size:1.1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:transform .3s cubic-bezier(.34,1.5,.64,1),box-shadow .3s,opacity .3s;box-shadow:0 8px 22px rgba(255,107,138,.4)}
 .nav-btn:hover:not(:disabled){transform:scale(1.15) rotate(5deg);box-shadow:0 14px 32px rgba(255,107,138,.65)}
 .nav-btn:disabled{opacity:.28;cursor:not-allowed}
-#dots{display:flex;gap:7px;padding:0 6px}
-.dotnav{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.28);cursor:pointer;transition:all .35s}
+#dots{display:flex;gap:6px;padding:0 4px}
+.dotnav{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.28);cursor:pointer;transition:all .35s}
 .dotnav:hover{background:rgba(255,255,255,.6);transform:scale(1.2)}
-.dotnav.active{
-  background:linear-gradient(135deg,#FFE066,#FF6B8A);
-  width:26px;border-radius:100px;box-shadow:0 0 14px rgba(255,224,102,.8);
-}
-@media (max-width:520px){#dots{display:none}.nav-btn{width:40px;height:40px}}
-
-/* ============ TOP BUTTONS ============ */
-.top-btn{
-  position:fixed;top:20px;width:44px;height:44px;border-radius:50%;
-  border:1.5px solid var(--border);background:rgba(22,17,42,.72);color:#fff;
-  cursor:pointer;font-size:1rem;z-index:40;
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  transition:transform .3s,background .3s,border-color .3s;
-  display:flex;align-items:center;justify-content:center;font-family:inherit;
-}
-.top-btn:hover{transform:scale(1.1);background:linear-gradient(135deg,#FF6B8A,#C8A2FF);border-color:transparent}
-#fsBtn{left:20px}
-
-/* ============ COUNTER ============ */
-#counter{
-  position:fixed;top:20px;right:20px;font-size:.85rem;font-weight:700;
-  letter-spacing:1.5px;z-index:40;color:rgba(255,255,255,.7);
-  background:rgba(22,17,42,.72);padding:9px 18px;border-radius:100px;
-  border:1.5px solid var(--border);backdrop-filter:blur(14px);
-}
+.dotnav.active{background:linear-gradient(135deg,#FFE066,#FF6B8A);width:24px;border-radius:100px;box-shadow:0 0 14px rgba(255,224,102,.8)}
+@media (max-width:520px){#dots{display:none}.nav-btn{width:36px;height:36px}}
+#fsBtn{position:fixed;top:18px;left:18px;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:rgba(22,17,42,.72);color:#fff;cursor:pointer;font-size:1rem;z-index:40;backdrop-filter:blur(14px);transition:transform .3s,background .3s,border-color .3s;display:flex;align-items:center;justify-content:center;font-family:inherit}
+#fsBtn:hover{transform:scale(1.1);background:linear-gradient(135deg,#FF6B8A,#C8A2FF);border-color:transparent}
+#counter{position:fixed;top:18px;right:18px;font-size:.82rem;font-weight:700;letter-spacing:1.5px;z-index:40;color:rgba(255,255,255,.7);background:rgba(22,17,42,.72);padding:8px 16px;border-radius:100px;border:1.5px solid var(--border);backdrop-filter:blur(14px)}
 #counter span{color:#FFE066}
-
-/* ============ SCROLLBAR ============ */
-.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar{width:7px}
 .slide::-webkit-scrollbar-track{background:transparent}
 .slide::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#FF7EB6,#C8A2FF);border-radius:100px}
 
-/* Utility */
-.mt-20{margin-top:20px}.mt-30{margin-top:30px}.center{text-align:center}
-.mx-auto{margin-left:auto;margin-right:auto}
-.maxw-820{max-width:820px}
+.mt-16{margin-top:14px}.mt-20{margin-top:18px}.mt-30{margin-top:24px}.center{text-align:center}
+.mx-auto{margin-left:auto;margin-right:auto}.maxw-900{max-width:900px}.maxw-820{max-width:820px}
+.flex-center{display:flex;align-items:center;justify-content:center;gap:clamp(14px,3vw,40px);flex-wrap:wrap}
+.svg-box{display:flex;justify-content:center;align-items:center;width:100%;padding:4px}
+.svg-box svg{max-width:100%;height:auto;filter:drop-shadow(0 8px 30px rgba(0,0,0,.4))}
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     BACKGROUND
-     ============================================================ -->
 <div id="bgLayer">
   <div id="meshGradient"></div>
-  <div class="blob b1"></div>
-  <div class="blob b2"></div>
-  <div class="blob b3"></div>
-  <div class="blob b4"></div>
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div>
   <div id="dotGrid"></div>
   <div id="particles"></div>
 </div>
 
 <div id="progressWrap"><div id="progress"></div></div>
 <div id="counter"><span id="curSlide">1</span> / <span id="totSlide">15</span></div>
-<button id="fsBtn" class="top-btn" title="Fullscreen (F)">⛶</button>
+<button id="fsBtn" title="Fullscreen (F)">⛶</button>
 
 <div id="stage">
 
-  <!-- ============ SLIDE 1 — JUDUL ============ -->
-  <section class="slide active">
-    <div class="content center">
-      <div class="anim" style="--d:.05s">
-        <span class="title-badge">✦ Presentasi Biologi ✦</span>
-      </div>
-
-      <svg class="heart-svg anim-scale" style="--d:.2s" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="hg" cx="35%" cy="30%">
-            <stop offset="0%" stop-color="#FFD1E0"/>
-            <stop offset="45%" stop-color="#FF6B8A"/>
-            <stop offset="100%" stop-color="#9B1B3A"/>
-          </radialGradient>
-        </defs>
-        <path d="M100 170 C 30 120, 10 70, 40 40 C 65 15, 95 25, 100 55 C 105 25, 135 15, 160 40 C 190 70, 170 120, 100 170 Z" fill="url(#hg)" stroke="#FFB6D9" stroke-width="2"/>
-        <ellipse cx="70" cy="55" rx="14" ry="9" fill="#FFF8EC" opacity=".55"/>
-      </svg>
-
-      <h1 class="anim" style="--d:.35s">DARAH</h1>
-      <p class="title-sub anim" style="--d:.5s">Sistem Transportasi &amp; Pertahanan Tubuh Manusia</p>
-
-      <div class="anim" style="--d:.65s">
-        <div class="title-group">KELOMPOK <span>6</span></div>
-      </div>
-
-      <div class="members">
-        <div class="member anim" style="--d:.75s">
-          <div class="avatar">A</div>
-          <div class="name">Athailla Daffa Arfiqiy</div>
-          <div class="role">Anggota</div>
-        </div>
-        <div class="member anim" style="--d:.83s">
-          <div class="avatar">A</div>
-          <div class="name">Aira Purnama Syachputri</div>
-          <div class="role">Anggota</div>
-        </div>
-        <div class="member anim" style="--d:.91s">
-          <div class="avatar">B</div>
-          <div class="name">Bintang Uswatun Hasanah</div>
-          <div class="role">Anggota</div>
-        </div>
-        <div class="member anim" style="--d:.99s">
-          <div class="avatar">M</div>
-          <div class="name">Marsa Lutfiyah</div>
-          <div class="role">Anggota</div>
-        </div>
-        <div class="member anim" style="--d:1.07s">
-          <div class="avatar">R</div>
-          <div class="name">Risya Syafira Putri</div>
-          <div class="role">Anggota</div>
-        </div>
-      </div>
+<!-- ============ SLIDE 1 — JUDUL ============ -->
+<section class="slide active">
+  <div class="content center">
+    <div class="anim" style="--d:.05s">
+      <span class="title-badge">✦ Presentasi Biologi ✦</span>
     </div>
-  </section>
 
-  <!-- ============ SLIDE 2 — APA ITU DARAH ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-sunny anim" style="--d:.05s">Bab 1 · Pengantar</span>
-      <h2 class="anim" style="--d:.15s">Apa Itu Darah?</h2>
+    <svg class="heart-svg anim-scale" style="--d:.2s" viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hg" cx="35%" cy="30%">
+          <stop offset="0%" stop-color="#FFD1E0"/>
+          <stop offset="45%" stop-color="#FF6B8A"/>
+          <stop offset="100%" stop-color="#9B1B3A"/>
+        </radialGradient>
+      </defs>
+      <path d="M120 200 C 40 145, 15 85, 50 50 C 80 22, 115 35, 120 70 C 125 35, 160 22, 190 50 C 225 85, 200 145, 120 200 Z" fill="url(#hg)" stroke="#FFB6D9" stroke-width="2"/>
+      <ellipse cx="85" cy="70" rx="17" ry="11" fill="#FFF8EC" opacity=".55"/>
+      <circle cx="45" cy="180" r="12" fill="#C8A2FF" opacity=".85"/>
+      <circle cx="200" cy="180" r="9" fill="#7BE8C4" opacity=".8"/>
+      <circle cx="210" cy="40" r="8" fill="#FFE066" opacity=".9"/>
+      <circle cx="30" cy="40" r="7" fill="#88D4FF" opacity=".85"/>
+    </svg>
 
-      <div class="grid g-2" style="align-items:center;margin-top:20px">
-        <div class="anim-left" style="--d:.3s">
-          <svg viewBox="0 0 320 320" style="width:100%;max-width:340px;display:block;margin:0 auto">
+    <h1 class="anim" style="--d:.35s">DARAH</h1>
+    <p class="title-sub anim" style="--d:.5s">Sistem Transportasi &amp; Pertahanan Tubuh Manusia</p>
+
+    <div class="anim" style="--d:.65s">
+      <div class="title-group">KELOMPOK <span>6</span></div>
+    </div>
+
+    <div class="members">
+      <div class="member anim" style="--d:.75s"><div class="avatar">A</div><div class="name">Athailla Daffa Arfiqiy</div><div class="role">Anggota</div></div>
+      <div class="member anim" style="--d:.83s"><div class="avatar">A</div><div class="name">Aira Purnama Syachputri</div><div class="role">Anggota</div></div>
+      <div class="member anim" style="--d:.91s"><div class="avatar">B</div><div class="name">Bintang Uswatun Hasanah</div><div class="role">Anggota</div></div>
+      <div class="member anim" style="--d:.99s"><div class="avatar">M</div><div class="name">Marsa Lutfiyah</div><div class="role">Anggota</div></div>
+      <div class="member anim" style="--d:1.07s"><div class="avatar">R</div><div class="name">Risya Syafira Putri</div><div class="role">Anggota</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2 — APA ITU DARAH ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-sunny anim" style="--d:.05s">Bab 1 · Pengantar</span>
+    <h2 class="anim" style="--d:.15s">Apa Itu Darah?</h2>
+
+    <div class="grid g-2" style="align-items:center;margin-top:12px">
+      <div class="anim-left" style="--d:.3s">
+        <div class="svg-box">
+          <svg viewBox="0 0 400 380" width="360">
             <defs>
               <radialGradient id="bodyG" cx="40%" cy="30%">
                 <stop offset="0%" stop-color="#FFB6D9"/>
                 <stop offset="100%" stop-color="#9B5DE5"/>
               </radialGradient>
+              <linearGradient id="artG" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#FF6B8A"/><stop offset="100%" stop-color="#E63956"/>
+              </linearGradient>
               <linearGradient id="veinG" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#FF6B8A"/>
-                <stop offset="100%" stop-color="#C8A2FF"/>
+                <stop offset="0%" stop-color="#88D4FF"/><stop offset="100%" stop-color="#3B5BDB"/>
               </linearGradient>
             </defs>
-            <ellipse cx="160" cy="90" rx="42" ry="48" fill="url(#bodyG)" opacity=".85"/>
-            <path d="M160 135 C 100 145, 80 220, 90 290 L 230 290 C 240 220, 220 145, 160 135 Z" fill="url(#bodyG)" opacity=".85"/>
-            <path d="M160 190 C 140 175, 130 160, 142 150 C 152 142, 160 150, 160 158 C 160 150, 168 142, 178 150 C 190 160, 180 175, 160 190 Z" fill="#FF6B8A" stroke="#FFF8EC" stroke-width="1.5"/>
-            <path d="M160 175 L 160 110 L 130 85" stroke="url(#veinG)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
-            <path d="M160 175 L 160 110 L 190 85" stroke="url(#veinG)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
-            <path d="M150 195 L 110 250 L 100 290" stroke="url(#veinG)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
-            <path d="M170 195 L 210 250 L 220 290" stroke="url(#veinG)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
-            <circle cx="130" cy="85" r="7" fill="#FF7EB6" opacity=".9"/>
-            <circle cx="190" cy="85" r="7" fill="#FF7EB6" opacity=".9"/>
-            <circle cx="100" cy="290" r="7" fill="#FF7EB6" opacity=".9"/>
-            <circle cx="220" cy="290" r="7" fill="#FF7EB6" opacity=".9"/>
+            <!-- Kepala -->
+            <circle cx="200" cy="65" r="38" fill="url(#bodyG)" opacity=".9"/>
+            <!-- Leher -->
+            <rect x="188" y="96" width="24" height="18" fill="url(#bodyG)" opacity=".9"/>
+            <!-- Badan -->
+            <path d="M200 110 C 140 120, 122 200, 130 300 L 270 300 C 278 200, 260 120, 200 110 Z" fill="url(#bodyG)" opacity=".9"/>
+            <!-- Lengan -->
+            <path d="M142 140 L 90 240 L 104 244 L 152 150 Z" fill="url(#bodyG)" opacity=".85"/>
+            <path d="M258 140 L 310 240 L 296 244 L 248 150 Z" fill="url(#bodyG)" opacity=".85"/>
+            <!-- Kaki -->
+            <path d="M160 300 L 155 360 L 175 360 L 180 300 Z" fill="url(#bodyG)" opacity=".85"/>
+            <path d="M240 300 L 245 360 L 225 360 L 220 300 Z" fill="url(#bodyG)" opacity=".85"/>
+            <!-- Paru-paru -->
+            <ellipse cx="168" cy="150" rx="18" ry="34" fill="#88D4FF" opacity=".5"/>
+            <ellipse cx="232" cy="150" rx="18" ry="34" fill="#88D4FF" opacity=".5"/>
+            <text x="168" y="155" text-anchor="middle" fill="#fff" font-size="9" opacity=".7">paru</text>
+            <text x="232" y="155" text-anchor="middle" fill="#fff" font-size="9" opacity=".7">paru</text>
+            <!-- Jantung di tengah -->
+            <path d="M200 178 C 180 162, 172 148, 184 138 C 194 130, 200 140, 200 148 C 200 140, 206 130, 216 138 C 228 148, 220 162, 200 178 Z" fill="#FF6B8A" stroke="#FFF8EC" stroke-width="2"/>
+            <text x="200" y="170" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">JANTUNG</text>
+            <!-- Pembuluh arteri (merah) ke seluruh tubuh -->
+            <path d="M200 190 L 200 105" stroke="url(#artG)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M190 200 Q 160 240, 148 260 L 132 290" stroke="url(#artG)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M210 200 Q 240 240, 252 260 L 268 290" stroke="url(#artG)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M180 200 L 128 210 L 100 235" stroke="url(#artG)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M220 200 L 272 210 L 300 235" stroke="url(#artG)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M180 220 L 165 290 L 165 355" stroke="url(#artG)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M220 220 L 235 290 L 235 355" stroke="url(#artG)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Pembuluh vena (biru) kembali -->
+            <path d="M195 105 L 195 60" stroke="url(#veinG)" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="4 3"/>
+            <path d="M205 200 Q 175 245, 162 265" stroke="url(#veinG)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="4 3"/>
+            <path d="M195 200 Q 225 245, 238 265" stroke="url(#veinG)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="4 3"/>
+            <!-- Sel darah mengalir -->
+            <circle cx="200" cy="145" r="4.5" fill="#FF7EB6"/>
+            <circle cx="155" cy="230" r="4.5" fill="#FF7EB6"/>
+            <circle cx="245" cy="230" r="4.5" fill="#FF7EB6"/>
+            <circle cx="165" cy="320" r="4" fill="#FF7EB6"/>
+            <circle cx="235" cy="320" r="4" fill="#FF7EB6"/>
+            <circle cx="120" cy="245" r="4" fill="#FF7EB6"/>
+            <circle cx="280" cy="245" r="4" fill="#FF7EB6"/>
+            <!-- Label -->
+            <text x="200" y="375" text-anchor="middle" fill="#FFE066" font-size="13" font-weight="800">Darah mengalir ke SELURUH tubuh</text>
+            <g font-size="10">
+              <line x1="330" y1="30" x2="330" y2="55" stroke="#FF6B8A" stroke-width="3"/>
+              <text x="338" y="48" fill="#FF6B8A" font-weight="700">arteri (O₂)</text>
+              <line x1="330" y1="80" x2="330" y2="105" stroke="#88D4FF" stroke-width="3" stroke-dasharray="3 2"/>
+              <text x="338" y="98" fill="#88D4FF" font-weight="700">vena (CO₂)</text>
+            </g>
           </svg>
         </div>
+      </div>
 
-        <div class="anim-right" style="--d:.4s;text-align:left">
-          <div class="card c-pink" style="margin-bottom:14px">
-            <span class="icon">🩸</span>
-            <h3>Definisi Ilmiah</h3>
-            <p>Darah adalah <strong>jaringan ikat khusus berbentuk cair</strong> yang tersusun dari <em>plasma darah</em> (matriks cair) dan <em>sel-sel darah</em> (eritrosit, leukosit, trombosit). Darah mengalir melalui jantung dan pembuluh darah, mengangkut zat ke seluruh tubuh.</p>
-          </div>
-          <div class="card c-lav">
-            <span class="icon">🏙️</span>
-            <h3>Analogi "Kota Logistik"</h3>
-            <p>Bayangkan tubuhmu adalah kota besar: darah adalah sistem pengantar barang, penjaga keamanan, dan tukang tambal jalan yang bekerja 24 jam tanpa henti.</p>
-          </div>
+      <div class="anim-right" style="--d:.4s;text-align:left">
+        <div class="card c-pink">
+          <span class="icon">🩸</span>
+          <h3>Definisi Ilmiah (versi buku)</h3>
+          <p>Darah adalah <strong>jaringan ikat khusus berbentuk cair</strong> yang tersusun dari <em>plasma darah</em> (cairan) + <em>sel-sel darah</em> (eritrosit, leukosit, trombosit). Darah dipompa jantung dan mengalir lewat pembuluh darah ke seluruh tubuh.</p>
         </div>
       </div>
+    </div>
 
-      <div class="stats">
-        <div class="stat anim" style="--d:.55s"><span class="val">4–6 L</span><div class="lbl">Volume Darah</div></div>
-        <div class="stat anim" style="--d:.63s"><span class="val">7–8 %</span><div class="lbl">Berat Tubuh</div></div>
-        <div class="stat anim" style="--d:.71s"><span class="val">7,35–7,45</span><div class="lbl">pH Darah</div></div>
-        <div class="stat anim" style="--d:.79s"><span class="val">±38 °C</span><div class="lbl">Suhu</div></div>
+    <div class="easy anim" style="--d:.55s">
+      <p><strong>Darah itu seperti "sup merah" yang mengalir di dalam tubuhmu.</strong> Bayangkan semangkuk sup: ada <em>kuahnya</em> (plasma, warnanya kekuningan) dan ada <em>isinya</em> (sel darah: sel merah, sel putih, keping darah). Nah, sup ini dipompa oleh jantung dan mengalir lewat pipa-pipa (pembuluh darah) ke seluruh bagian tubuh — sampai ke ujung jari kaki.</p>
+      <p>Analogi gampangnya: tubuhmu itu <em>kota besar</em>, dan darah itu <strong>sistem kurir + satpam + tukang tambal jalan</strong> yang kerja 24 jam tanpa libur.</p>
+      <span class="real">Contoh: kalau kamu keseleo, darah bawa "tim medis" ke lokasi. Kalau kamu kedinginan, darah atur suhu. Kalau kamu kena virus, darah kirim pasukan perang.</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat anim" style="--d:.7s"><span class="val">4–6 L</span><div class="lbl">Volume (≈ 12 botol air 500ml)</div></div>
+      <div class="stat anim" style="--d:.78s"><span class="val">7–8 %</span><div class="lbl">Berat Tubuh</div></div>
+      <div class="stat anim" style="--d:.86s"><span class="val">7,35–7,45</span><div class="lbl">pH (sedikit basa)</div></div>
+      <div class="stat anim" style="--d:.94s"><span class="val">±38 °C</span><div class="lbl">Suhu</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3 — KOMPOSISI ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-sky anim" style="--d:.05s">Bab 2 · Komposisi</span>
+    <h2 class="anim" style="--d:.15s">Darah Terdiri dari Apa Saja?</h2>
+    <p class="anim" style="--d:.25s">Kalau darah diputar cepat dengan <strong>sentrifus</strong> (mesin pemutar ± 5.000 rpm selama 5 menit), darah akan <em>terpisah jadi 3 lapisan</em>.</p>
+
+    <div class="flex-center" style="margin-top:14px">
+      <!-- Tabung sentrifus akurat -->
+      <svg class="anim-scale" style="--d:.35s" viewBox="0 0 200 400" width="180">
+        <defs>
+          <linearGradient id="plasmaG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFAF0"/><stop offset="100%" stop-color="#FFE066"/>
+          </linearGradient>
+          <linearGradient id="rbcG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FF6B8A"/><stop offset="100%" stop-color="#7A0B26"/>
+          </linearGradient>
+        </defs>
+        <!-- Tabung kaca -->
+        <path d="M35 30 L35 320 Q35 375 100 375 Q165 375 165 320 L165 30 Z" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.55)" stroke-width="3"/>
+        <!-- Plasma 55% -->
+        <path d="M38 33 L38 195 L162 195 L162 33 Z" fill="url(#plasmaG)" opacity=".95"/>
+        <text x="100" y="110" text-anchor="middle" fill="#1a1430" font-size="14" font-weight="900">PLASMA</text>
+        <text x="100" y="128" text-anchor="middle" fill="#1a1430" font-size="11" font-weight="700">≈ 55%</text>
+        <text x="100" y="150" text-anchor="middle" fill="#1a1430" font-size="9" opacity=".7">cairan kuning</text>
+        <!-- Buffy coat (tipis) -->
+        <rect x="38" y="195" width="124" height="14" fill="#FFF8EC"/>
+        <text x="100" y="205" text-anchor="middle" fill="#1a1430" font-size="8" font-weight="800">buffy coat &lt; 1%</text>
+        <!-- Eritrosit 45% -->
+        <path d="M38 209 L38 320 Q38 372 100 372 Q162 372 162 320 L162 209 Z" fill="url(#rbcG)"/>
+        <text x="100" y="270" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">ERITROSIT</text>
+        <text x="100" y="288" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">≈ 45%</text>
+        <text x="100" y="308" text-anchor="middle" fill="#fff" font-size="9" opacity=".85">sel darah merah</text>
+        <!-- Highlight -->
+        <ellipse cx="60" cy="100" rx="10" ry="35" fill="#fff" opacity=".3"/>
+        <ellipse cx="100" cy="30" rx="66" ry="10" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="3"/>
+        <!-- Panah label kiri -->
+        <g font-size="10" font-weight="800">
+          <text x="8" y="115" fill="#FFE066">▲</text>
+          <text x="0" y="128" fill="#FFE066">55%</text>
+          <text x="8" y="208" fill="#fff">▲</text>
+          <text x="0" y="220" fill="#fff">&lt;1%</text>
+          <text x="8" y="280" fill="#FFB6D9">▲</text>
+          <text x="0" y="292" fill="#FFB6D9">45%</text>
+        </g>
+      </svg>
+
+      <div class="legend">
+        <div class="legend-item anim" style="--d:.5s">
+          <span class="dot dot-sunny"></span>
+          <div class="legend-text"><strong>Plasma Darah (55%)</strong><span>Cairan kekuningan. Isinya: air, protein, gula, hormon.</span></div>
+        </div>
+        <div class="legend-item anim" style="--d:.6s">
+          <span class="dot dot-white"></span>
+          <div class="legend-text"><strong>Buffy Coat (&lt;1%)</strong><span>Lapisan putih tipis. Isinya: sel darah putih + keping darah.</span></div>
+        </div>
+        <div class="legend-item anim" style="--d:.7s">
+          <span class="dot dot-pink"></span>
+          <div class="legend-text"><strong>Eritrosit (45%)</strong><span>Sel darah merah. Si pengangkut oksigen.</span></div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- ============ SLIDE 3 — KOMPOSISI ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-sky anim" style="--d:.05s">Bab 2 · Komposisi</span>
-      <h2 class="anim" style="--d:.15s">Komposisi Darah</h2>
-      <p class="anim" style="--d:.25s">Jika darah diputar dengan <strong>sentrifus</strong> (± 5.000 rpm selama 5 menit), ia terpisah menjadi <em>3 lapisan</em> yang jelas.</p>
+    <div class="easy anim" style="--d:.8s">
+      <p><strong>Gampangnya:</strong> darah itu seperti <em>air sirop</em> yang sudah lama didiamkan. Kalau dibiarkan, yang berat turun ke bawah (sel merah), yang ringan naik ke atas (plasma). Nah, sentrifus itu mesin yang <em>memutar cepat</em> supaya pemisahannya cepat dan rapi.</p>
+      <p>Yang paling banyak: <strong>plasma 55%</strong> (kuahnya). Yang kedua: <strong>sel merah 45%</strong> (isinya). Yang paling sedikit: <strong>sel putih + keping darah</strong> — cuma &lt; 1%, tipis banget seperti selai.</p>
+    </div>
 
-      <div class="tube-wrap">
-        <svg class="anim-rot" style="--d:.35s" viewBox="0 0 130 340" width="140" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="plasmaG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FFF8EC"/>
-              <stop offset="100%" stop-color="#FFE066"/>
-            </linearGradient>
-            <linearGradient id="buffyG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FFFFFF"/>
-              <stop offset="100%" stop-color="#E0E0E0"/>
-            </linearGradient>
-            <linearGradient id="rbcG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FF6B8A"/>
-              <stop offset="100%" stop-color="#7A0B26"/>
-            </linearGradient>
-          </defs>
-          <path d="M20 20 L20 280 Q20 330 65 330 Q110 330 110 280 L110 20 Z" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.5)" stroke-width="3"/>
-          <path d="M23 22 L23 175 L107 175 L107 22 Z" fill="url(#plasmaG)" opacity=".95"/>
-          <rect x="23" y="175" width="84" height="18" fill="url(#buffyG)"/>
-          <path d="M23 193 L23 280 Q23 327 65 327 Q107 327 107 280 L107 193 Z" fill="url(#rbcG)"/>
-          <circle cx="45" cy="230" r="6" fill="#fff" opacity=".18"/>
-          <circle cx="80" cy="255" r="5" fill="#fff" opacity=".15"/>
-          <circle cx="60" cy="290" r="6" fill="#fff" opacity=".14"/>
-          <circle cx="90" cy="215" r="4" fill="#fff" opacity=".12"/>
-          <ellipse cx="40" cy="80" rx="10" ry="30" fill="#fff" opacity=".25"/>
-          <ellipse cx="65" cy="20" rx="45" ry="8" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="3"/>
+    <div class="grid g-2 mt-16 maxw-900 mx-auto">
+      <div class="card c-sunny anim" style="--d:.9s">
+        <h3>💡 Plasma vs Serum — Beda Tipis</h3>
+        <p><strong>Plasma</strong> = darah cair <em>lengkap</em> (masih ada zat pembeku).<br>
+        <strong>Serum</strong> = plasma yang <em>sudah dibuang zat pembekunya</em>. Didapat setelah darah membeku.</p>
+        <p style="margin-top:6px;font-size:.85rem;color:rgba(255,255,255,.7)">👉 Serum ini yang dipakai di lab untuk tes darah &amp; bikin vaksin.</p>
+      </div>
+      <div class="card c-lav anim" style="--d:1s">
+        <h3>📊 Hematokrit — Istilah Kerennya</h3>
+        <p>Persentase sel merah dibanding total darah disebut <strong>hematokrit</strong>. Normal: pria ±45%, wanita ±40%.</p>
+        <p style="margin-top:6px;font-size:.85rem;color:rgba(255,255,255,.7)">👉 Kalau angkanya rendah → kemungkinan <em>anemia</em> (kurang darah).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4 — PLASMA ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-sunny anim" style="--d:.05s">Komponen 1 dari 4</span>
+    <h2 class="anim" style="--d:.15s">Plasma Darah — "Kuahnya"</h2>
+    <p class="anim" style="--d:.25s">Cairan kekuningan yang mengangkut hampir semua zat. Isinya <strong>91–92% air</strong>.</p>
+
+    <div class="grid g-2" style="align-items:center;margin-top:12px">
+      <div class="svg-box anim-left" style="--d:.3s">
+        <svg viewBox="0 0 340 300" width="320">
+          <!-- Gelas ukur plasma -->
+          <path d="M60 40 L60 260 Q60 285 100 285 L240 285 Q280 285 280 260 L280 40 Z" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+          <!-- Air layer (92%) -->
+          <path d="M62 42 L62 250 L278 250 L278 42 Z" fill="#88D4FF" opacity=".55"/>
+          <!-- Protein layer (7%) -->
+          <path d="M62 250 L62 275 Q62 282 100 282 L240 282 Q278 282 278 275 L278 250 Z" fill="#FFB6D9" opacity=".85"/>
+          <!-- Zat terlarut -->
+          <circle cx="130" cy="200" r="4" fill="#FFE066"/>
+          <circle cx="180" cy="170" r="4" fill="#7BE8C4"/>
+          <circle cx="220" cy="190" r="4" fill="#C8A2FF"/>
+          <circle cx="150" cy="120" r="4" fill="#FF6B8A"/>
+          <circle cx="200" cy="100" r="4" fill="#FFE066"/>
+          <circle cx="240" cy="130" r="4" fill="#88D4FF"/>
+          <circle cx="100" cy="160" r="4" fill="#7BE8C4"/>
+          <!-- Label -->
+          <text x="170" y="120" text-anchor="middle" fill="#fff" font-size="15" font-weight="900">AIR 91–92%</text>
+          <text x="170" y="140" text-anchor="middle" fill="rgba(255,255,255,.75)" font-size="10">seperti air kelapa</text>
+          <text x="170" y="268" text-anchor="middle" fill="#1a1430" font-size="13" font-weight="900">PROTEIN 7–8%</text>
+          <text x="170" y="295" text-anchor="middle" fill="#FFE066" font-size="10" font-weight="700">(albumin, globulin, fibrinogen)</text>
         </svg>
-
-        <div class="legend">
-          <div class="legend-item anim" style="--d:.5s">
-            <span class="dot dot-sunny"></span>
-            <div class="legend-text">
-              <strong>Plasma Darah (≈ 55 %)</strong>
-              <span>Cairan kekuningan → air, protein plasma, zat terlarut</span>
-            </div>
-          </div>
-          <div class="legend-item anim" style="--d:.62s">
-            <span class="dot dot-white"></span>
-            <div class="legend-text">
-              <strong>Buffy Coat (&lt; 1 %)</strong>
-              <span>Lapisan tipis putih → leukosit &amp; trombosit</span>
-            </div>
-          </div>
-          <div class="legend-item anim" style="--d:.74s">
-            <span class="dot dot-pink"></span>
-            <div class="legend-text">
-              <strong>Eritrosit (≈ 45 %)</strong>
-              <span>Sel darah merah → pengangkut oksigen</span>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div class="grid g-2 mt-30" style="max-width:900px;margin-left:auto;margin-right:auto">
-        <div class="card c-sunny anim" style="--d:.85s">
-          <h3>💡 Plasma vs Serum</h3>
-          <p><strong>Plasma</strong> = cairan darah lengkap dengan faktor pembekuan (fibrinogen).<br>
-          <strong>Serum</strong> = plasma <em>tanpa</em> faktor pembekuan — didapat setelah darah membeku. Serum dipakai untuk tes lab &amp; vaksin.</p>
+      <div class="grid g-2" style="margin-top:0">
+        <div class="card c-pink anim" style="--d:.35s"><span class="icon">🧬</span><h3>Albumin (54%)</h3><p>Satpam air. Menahan cairan supaya tidak bocor dari pembuluh.</p></div>
+        <div class="card c-lav anim" style="--d:.45s"><span class="icon">🛡️</span><h3>Globulin (38%)</h3><p>Tentara. Ada yang jadi <em>antibodi</em>, ada yang angkut lemak &amp; besi.</p></div>
+        <div class="card c-mint anim" style="--d:.55s"><span class="icon">🩹</span><h3>Fibrinogen (7%)</h3><p>Lem. Bahan baku untuk menutup luka jadi <strong>fibrin</strong>.</p></div>
+        <div class="card c-peach anim" style="--d:.65s"><span class="icon">🍬</span><h3>Nutrisi &amp; Hormon</h3><p>Gula, asam amino, lemak, vitamin, hormon.</p></div>
+        <div class="card c-sky anim" style="--d:.75s"><span class="icon">💨</span><h3>Gas Terlarut</h3><p>Oksigen, karbon dioksida, nitrogen.</p></div>
+        <div class="card c-coral anim" style="--d:.85s"><span class="icon">🚮</span><h3>Sisa Metabolisme</h3><p>Urea, asam urat → dibuang lewat ginjal jadi pipis.</p></div>
+      </div>
+    </div>
+
+    <div class="easy anim" style="--d:.95s">
+      <p><strong>Gampangnya:</strong> plasma itu kayak <em>kuah bening kekuningan</em> yang jadi jalan tol semua zat di tubuh. Bayangkan kuah sup: warnanya agak kekuningan, ada 91% airnya, sisanya protein &amp; gula.</p>
+      <p>Tiga protein penting:<br>
+      • <strong>Albumin</strong> = satpam air → kalau kurang, kaki bisa bengkak (edema).<br>
+      • <strong>Globulin</strong> = tentara → melawan kuman, angkut zat gizi.<br>
+      • <strong>Fibrinogen</strong> = lem super → penambal luka.</p>
+      <span class="real">Contoh: penderita sakit ginjal kehilangan banyak albumin lewat urin → badan jadi bengkak karena air "bocor" keluar dari pembuluh.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5 — ERITROSIT ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-coral anim" style="--d:.05s">Komponen 2 dari 4</span>
+    <h2 class="anim" style="--d:.15s">Eritrosit — Sel Darah Merah</h2>
+    <p class="anim" style="--d:.25s">Si <em>truk pengangkut oksigen</em>. Warnanya merah karena mengandung <strong>hemoglobin</strong>.</p>
+
+    <div class="grid g-2" style="align-items:center;margin-top:10px">
+      <!-- Perbandingan sel biasa vs eritrosit bikonkaf -->
+      <div class="svg-box anim-scale" style="--d:.3s">
+        <svg viewBox="0 0 400 280" width="380">
+          <defs>
+            <radialGradient id="rbcGrad" cx="35%" cy="30%">
+              <stop offset="0%" stop-color="#FFB6D9"/>
+              <stop offset="40%" stop-color="#FF6B8A"/>
+              <stop offset="100%" stop-color="#9B1B3A"/>
+            </radialGradient>
+            <radialGradient id="dentGrad" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="rgba(0,0,0,.42)"/>
+              <stop offset="60%" stop-color="rgba(0,0,0,.15)"/>
+              <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+            </radialGradient>
+          </defs>
+          <!-- Kiri: sel biasa (bulat - kalau dibayangkan seperti bola) -->
+          <text x="80" y="30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="12" font-weight="800">❌ Sel biasa</text>
+          <text x="80" y="48" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="10">(bayangkan kelereng)</text>
+          <circle cx="80" cy="130" r="55" fill="#88D4FF" opacity=".65" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+          <text x="80" y="135" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">area</text>
+          <text x="80" y="150" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">kecil</text>
+          <!-- Panah -->
+          <path d="M155 130 L 205 130" stroke="#FFE066" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M198 122 L 208 130 L 198 138" stroke="#FFE066" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="180" y="115" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="900">bikin</text>
+          <text x="180" y="100" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="900">gepeng</text>
+          <!-- Kanan: eritrosit bikonkaf -->
+          <text x="310" y="30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="12" font-weight="800">✓ Eritrosit</text>
+          <text x="310" y="48" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="10">(bayangkan donat tanpa lubang)</text>
+          <ellipse cx="310" cy="130" rx="72" ry="50" fill="url(#rbcGrad)"/>
+          <ellipse cx="310" cy="130" rx="34" ry="20" fill="url(#dentGrad)"/>
+          <ellipse cx="280" cy="108" rx="14" ry="8" fill="#FFF8EC" opacity=".5"/>
+          <text x="310" y="135" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">area</text>
+          <text x="310" y="150" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">LUAS ✓</text>
+          <!-- Penjelasan bawah -->
+          <text x="200" y="220" text-anchor="middle" fill="#FFE066" font-size="13" font-weight="900">Bentuk bikonkaf = seperti UFO pipih</text>
+          <text x="200" y="242" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="11">✓ area luas → lebih banyak O₂ bisa nempel</text>
+          <text x="200" y="260" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="11">✓ lentur → bisa selip di pembuluh sempit</text>
+        </svg>
+      </div>
+
+      <div class="anim-right" style="--d:.4s;text-align:left">
+        <div class="card c-coral" style="margin-bottom:10px">
+          <span class="icon">🚫</span>
+          <h3>Tidak Punya Inti &amp; Mitokondria</h3>
+          <p>Supaya ruangnya penuh dipakai untuk <strong>hemoglobin</strong>. Energi didapat dari proses tanpa oksigen (glikolisis). Konsekuensinya: sel ini <em>tidak bisa perbaiki diri</em> → umurnya terbatas.</p>
         </div>
-        <div class="card c-lav anim" style="--d:.95s">
-          <h3>📊 Persentase Hematokrit</h3>
-          <p>Volume eritrosit dibanding total darah disebut <strong>hematokrit</strong>. Normal: pria ± 45 %, wanita ± 40 %. Nilai rendah → indikasi <em>anemia</em>.</p>
+        <div class="card c-lav" style="margin-bottom:10px">
+          <span class="icon">🧪</span>
+          <h3>Hemoglobin (Hb) — Sang Pengikat O₂</h3>
+          <p>1 sel eritrosit berisi ± <strong>270 juta molekul Hb</strong>.<br>1 Hb bisa mengikat <strong>4 molekul O₂</strong>.<br>Warna merah dari <em>besi (Fe)</em> di dalam heme.</p>
+        </div>
+        <div class="card c-sky">
+          <span class="icon">⏳</span>
+          <h3>Umur 120 Hari (± 4 bulan)</h3>
+          <p>Dibuat di <em>sumsum tulang merah</em>, dirombak di <em>limpa &amp; hati</em>. Besinya didaur ulang jadi eritrosit baru.</p>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ============ SLIDE 4 — PLASMA ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-sunny anim" style="--d:.05s">Komponen 1 dari 4</span>
-      <h2 class="anim" style="--d:.15s">Plasma Darah</h2>
-      <p class="anim" style="--d:.25s">Cairan kekuningan yang menjadi <em>"jalan raya"</em> transportasi tubuh — sekitar <strong>91–92 % air</strong>.</p>
+    <div class="easy anim" style="--d:.55s">
+      <p><strong>Gampangnya:</strong> eritrosit itu seperti <em>truk tangki</em> yang kerjanya cuma 1: <strong>mengangkut oksigen</strong> dari paru-paru ke seluruh tubuh, lalu mengangkut karbondioksida balik ke paru.</p>
+      <p>Bentuknya <em>bikonkaf</em> — bayangkan <strong>donat yang lubangnya ditutup</strong>, jadi cekung di dua sisi. Kenapa begitu? Supaya <em>area permukaannya luas</em> — makin luas, makin banyak oksigen yang bisa nempel. Dan bentuknya <em>lentur</em>, jadi bisa nyelip di pembuluh super kecil.</p>
+      <p>Warnanya merah karena ada <strong>hemoglobin (Hb)</strong> — molekul yang mengandung besi (Fe). Semakin banyak O₂, semakin merah terang.</p>
+      <span class="real">Contoh: orang kurang darah (anemia) itu Hb-nya sedikit → mukanya pucat, gampang capek &amp; pusing. Karena oksigen tidak cukup terkirim ke otak.</span>
+    </div>
 
-      <div class="grid g-3">
-        <div class="card c-pink anim" style="--d:.35s">
-          <span class="icon">🧬</span>
-          <h3>Albumin (≈ 54 %)</h3>
-          <p>Protein terbanyak dalam plasma. Menjaga <strong>tekanan osmotik koloid</strong> agar cairan tidak bocor keluar pembuluh, sekaligus mengangkut hormon &amp; obat.</p>
-        </div>
-        <div class="card c-lav anim" style="--d:.45s">
-          <span class="icon">🛡️</span>
-          <h3>Globulin (≈ 38 %)</h3>
-          <p>Terbagi 3: <strong>α &amp; β globulin</strong> (transpor lipid, zat besi, vitamin), <strong>γ globulin</strong> = antibodi (imunoglobulin).</p>
-        </div>
-        <div class="card c-mint anim" style="--d:.55s">
-          <span class="icon">🩹</span>
-          <h3>Fibrinogen (≈ 7 %)</h3>
-          <p>Bahan baku pembekuan darah. Diubah menjadi <strong>fibrin</strong> saat terjadi luka oleh enzim trombin.</p>
-        </div>
-        <div class="card c-peach anim" style="--d:.65s">
-          <span class="icon">🍬</span>
-          <h3>Nutrisi &amp; Hormon</h3>
-          <p>Glukosa, asam amino, asam lemak, gliserol, vitamin, hormon, garam mineral, enzim.</p>
-        </div>
-        <div class="card c-sky anim" style="--d:.75s">
-          <span class="icon">💨</span>
-          <h3>Gas Terlarut</h3>
-          <p>O₂ (± 1,5 %), CO₂ (± 7 %), dan nitrogen yang larut dalam plasma.</p>
-        </div>
-        <div class="card c-coral anim" style="--d:.85s">
-          <span class="icon">🚮</span>
-          <h3>Sisa Metabolisme</h3>
-          <p>Urea, asam urat, kreatinin → dibuang lewat ginjal dalam bentuk urin.</p>
-        </div>
+    <div class="stats">
+      <div class="stat anim" style="--d:.75s"><span class="val">± 5 juta</span><div class="lbl">per µL (Pria)</div></div>
+      <div class="stat anim" style="--d:.83s"><span class="val">± 4,5 juta</span><div class="lbl">per µL (Wanita)</div></div>
+      <div class="stat anim" style="--d:.91s"><span class="val">120 hari</span><div class="lbl">Umur</div></div>
+      <div class="stat anim" style="--d:.99s"><span class="val">2 juta/detik</span><div class="lbl">Diproduksi</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6 — LEUKOSIT ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-mint anim" style="--d:.05s">Komponen 3 dari 4</span>
+    <h2 class="anim" style="--d:.15s">Leukosit — Sel Darah Putih</h2>
+    <p class="anim" style="--d:.25s">Si <em>satpam &amp; tentara</em> tubuh. Tugasnya <strong>melawan kuman &amp; penyakit</strong>. Jumlah normal: <strong>4.000–11.000/µL</strong>.</p>
+
+    <!-- SVG 5 jenis leukosit dengan detail akurat -->
+    <div class="svg-box anim" style="--d:.3s">
+      <svg viewBox="0 0 900 200" width="100%" style="max-width:900px">
+        <defs>
+          <radialGradient id="neutroG" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#C8A2FF"/></radialGradient>
+          <radialGradient id="limfoG" cx="35%" cy="30%"><stop offset="0%" stop-color="#88D4FF"/><stop offset="100%" stop-color="#3B5BDB"/></radialGradient>
+          <radialGradient id="monoG" cx="35%" cy="30%"><stop offset="0%" stop-color="#7BE8C4"/><stop offset="100%" stop-color="#0EA5A0"/></radialGradient>
+          <radialGradient id="eosiG" cx="35%" cy="30%"><stop offset="0%" stop-color="#FFB6D9"/><stop offset="100%" stop-color="#E63956"/></radialGradient>
+          <radialGradient id="basoG" cx="35%" cy="30%"><stop offset="0%" stop-color="#FFE066"/><stop offset="100%" stop-color="#FB8500"/></radialGradient>
+        </defs>
+
+        <!-- 1. NEUTROFIL: nucleus multi-lobed, fine granules -->
+        <g transform="translate(90,100)">
+          <circle r="58" fill="url(#neutroG)" stroke="#fff" stroke-width="1.5"/>
+          <!-- Granula halus -->
+          <circle cx="-20" cy="-20" r="2.5" fill="#9B5DE5" opacity=".7"/>
+          <circle cx="15" cy="-25" r="2.5" fill="#9B5DE5" opacity=".7"/>
+          <circle cx="-25" cy="15" r="2.5" fill="#9B5DE5" opacity=".7"/>
+          <circle cx="25" cy="20" r="2.5" fill="#9B5DE5" opacity=".7"/>
+          <circle cx="0" cy="30" r="2.5" fill="#9B5DE5" opacity=".7"/>
+          <!-- Nucleus multi-lobed (3 lobus) -->
+          <path d="M-20 -10 Q -12 -22, -4 -12 Q 0 -6, 6 -14 Q 16 -22, 20 -8 Q 22 2, 12 4 Q 4 6, 2 14 Q -2 22, -10 14 Q -16 8, -22 6 Q -28 0, -20 -10 Z" fill="#9B5DE5" stroke="#fff" stroke-width="1"/>
+          <text y="82" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">NEUTROFIL</text>
+          <text y="100" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="800">60–70%</text>
+          <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti 3 lobus · pemakan bakteri</text>
+        </g>
+
+        <!-- 2. LIMFOSIT: large round nucleus, small cytoplasm -->
+        <g transform="translate(270,100)">
+          <circle r="58" fill="url(#limfoG)" stroke="#fff" stroke-width="1.5"/>
+          <!-- Inti besar bulat -->
+          <circle r="32" fill="#1e3a8a" opacity=".9"/>
+          <circle r="32" fill="none" stroke="#fff" stroke-width="1"/>
+          <circle cx="-8" cy="-8" r="5" fill="#fff" opacity=".3"/>
+          <text y="82" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">LIMFOSIT</text>
+          <text y="100" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="800">20–30%</text>
+          <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti besar · bikin antibodi</text>
+        </g>
+
+        <!-- 3. MONOSIT: kidney-shaped nucleus -->
+        <g transform="translate(450,100)">
+          <circle r="58" fill="url(#monoG)" stroke="#fff" stroke-width="1.5"/>
+          <!-- Inti bentuk ginjal -->
+          <path d="M-20 -10 Q 0 -22, 20 -8 Q 26 6, 12 14 Q 0 20, -14 12 Q -26 4, -20 -10 Z" fill="#065f46" stroke="#fff" stroke-width="1"/>
+          <circle cx="-6" cy="-4" r="3" fill="#fff" opacity=".3"/>
+          <text y="82" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">MONOSIT</text>
+          <text y="100" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="800">3–8%</text>
+          <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti ginjal · jadi makrofag</text>
+        </g>
+
+        <!-- 4. EOSINOFIL: bilobed nucleus, pink granules -->
+        <g transform="translate(630,100)">
+          <circle r="58" fill="url(#eosiG)" stroke="#fff" stroke-width="1.5"/>
+          <!-- Granula pink -->
+          <circle cx="-22" cy="-14" r="4" fill="#E63956" opacity=".85"/>
+          <circle cx="-8" cy="-25" r="4" fill="#E63956" opacity=".85"/>
+          <circle cx="14" cy="-22" r="4" fill="#E63956" opacity=".85"/>
+          <circle cx="26" cy="-6" r="4" fill="#E63956" opacity=".85"/>
+          <circle cx="24" cy="16" r="4" fill="#E63956" opacity=".85"/>
+          <circle cx="8" cy="28" r="4" fill="#E63956" opacity=".85"/>
+          <circle cx="-14" cy="26" r="4" fill="#E63956" opacity=".85"/>
+          <circle cx="-26" cy="10" r="4" fill="#E63956" opacity=".85"/>
+          <!-- Inti 2 lobus -->
+          <path d="M-14 -8 Q 0 -22, 12 -8 Q 20 4, 10 12 L 2 8 L -2 8 L -10 12 Q -20 4, -14 -8 Z" fill="#7A0B26" stroke="#fff" stroke-width="1"/>
+          <text y="82" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">EOSINOFIL</text>
+          <text y="100" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="800">2–4%</text>
+          <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">inti 2 lobus · anti parasit</text>
+        </g>
+
+        <!-- 5. BASOFIL: dark granules covering nucleus -->
+        <g transform="translate(810,100)">
+          <circle r="58" fill="url(#basoG)" stroke="#fff" stroke-width="1.5"/>
+          <!-- Granula gelap besar menutupi inti -->
+          <circle cx="-18" cy="-16" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="0" cy="-22" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="18" cy="-18" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="22" cy="0" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="18" cy="18" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="0" cy="22" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="-18" cy="18" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="-22" cy="0" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="-10" cy="-4" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="8" cy="-2" r="5" fill="#4a0420" opacity=".9"/>
+          <circle cx="-4" cy="10" r="5" fill="#4a0420" opacity=".9"/>
+          <!-- Inti (tertutup granula) -->
+          <path d="M-14 -6 Q -2 -16, 10 -6 Q 16 4, 6 10 Q -4 14, -12 8 Q -18 2, -14 -6 Z" fill="#7A0B26" opacity=".8"/>
+          <text y="82" text-anchor="middle" fill="#fff" font-size="14" font-weight="900">BASOFIL</text>
+          <text y="100" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="800">0,5–1%</text>
+          <text y="118" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">granula gelap · alergi</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Tabel fungsi -->
+    <div class="tbl-wrap anim" style="--d:.45s">
+      <table>
+        <thead>
+          <tr><th>Jenis</th><th>Jumlah</th><th>Ciri Khas</th><th>Kerjanya Apa?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Neutrofil</strong></td><td>60–70%</td><td>Inti 3 lobus</td><td>Paling banyak. Pemakan bakteri (fagositosis) — pasukan garis depan.</td></tr>
+          <tr><td><strong>Limfosit</strong></td><td>20–30%</td><td>Inti besar bulat</td><td>Bikin <em>antibodi</em> &amp; melawan virus. Ada 2: sel T dan sel B.</td></tr>
+          <tr><td><strong>Monosit</strong></td><td>3–8%</td><td>Inti bentuk ginjal</td><td>Masuk ke jaringan jadi <em>makrofag</em> — pemakan yang lebih ganas.</td></tr>
+          <tr><td><strong>Eosinofil</strong></td><td>2–4%</td><td>Granula pink</td><td>Melawan <em>cacing/parasit</em> &amp; terlibat reaksi alergi.</td></tr>
+          <tr><td><strong>Basofil</strong></td><td>0,5–1%</td><td>Granula gelap</td><td>Melepas <em>histamin</em> → bikin alergi (gatal, bersin, bentol).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="easy anim" style="--d:.6s">
+      <p><strong>Gampangnya:</strong> leukosit itu <em>satpam komplek</em>. Kalau ada maling (kuman), satpam langsung datang, nangkap, dan makan malingnya. Jenis leukosit beda-beda sesuai tugas:</p>
+      <p>• <strong>Neutrofil</strong> = satpam utama (paling banyak, gerak paling cepat).<br>
+      • <strong>Limfosit</strong> = detektif + tukang bikin senjata (antibodi).<br>
+      • <strong>Monosit</strong> = satpam back-up yang berubah jadi "bos besar" (makrofag).<br>
+      • <strong>Eosinofil</strong> = spesialis lawan cacing.<br>
+      • <strong>Basofil</strong> = petugas yang bikin alarm (bersin, gatal, bentol).</p>
+      <span class="real">Contoh: waktu kamu luka &amp; bernanah, nanahnya itu <em>tumpukan leukosit mati</em> yang selesai perang melawan bakteri.</span>
+    </div>
+
+    <!-- Fagositosis step -->
+    <div class="card c-mint anim mt-16 maxw-900 mx-auto" style="--d:.75s">
+      <h3 style="text-align:center">🔬 Bagaimana Leukosit Makan Kuman? (Fagositosis)</h3>
+      <div class="svg-box" style="margin-top:10px">
+        <svg viewBox="0 0 900 130" width="100%" style="max-width:880px">
+          <!-- Tahap 1 -->
+          <g transform="translate(80,65)">
+            <circle r="30" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5"/>
+            <circle r="8" fill="#9B5DE5" opacity=".7"/>
+            <circle cx="55" cy="8" r="8" fill="#E63956"/>
+            <text y="-45" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">1. Deteksi</text>
+            <text y="-30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">kenal kuman</text>
+          </g>
+          <path d="M130 65 L 175 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)"/>
+          <defs><marker id="arrowM" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#FFE066"/></marker></defs>
+          <!-- Tahap 2 -->
+          <g transform="translate(240,65)">
+            <circle r="32" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5"/>
+            <circle r="8" fill="#9B5DE5" opacity=".7"/>
+            <path d="M-32 0 Q -20 4, -8 0" stroke="#7BE8C4" stroke-width="3" fill="none" opacity=".7"/>
+            <circle cx="26" cy="0" r="8" fill="#E63956"/>
+            <text y="-47" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">2. Mendekat</text>
+            <text y="-32" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">bergerak ke kuman</text>
+          </g>
+          <path d="M295 65 L 340 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)"/>
+          <!-- Tahap 3 -->
+          <g transform="translate(410,65)">
+            <circle r="34" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5"/>
+            <circle r="8" fill="#9B5DE5" opacity=".7"/>
+            <!-- pseudopod menelan kuman -->
+            <path d="M-30 -12 Q -6 -28, 22 -18 Q 36 -10, 30 8 Q 20 20, 0 16 Q -20 12, -30 -12 Z" fill="#7BE8C4" opacity=".7"/>
+            <circle cx="24" cy="0" r="7" fill="#E63956" opacity=".85"/>
+            <text y="-49" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">3. Menelan</text>
+            <text y="-34" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">"kaki" melingkup kuman</text>
+          </g>
+          <path d="M470 65 L 515 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)"/>
+          <!-- Tahap 4 -->
+          <g transform="translate(600,65)">
+            <circle r="36" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5"/>
+            <circle r="8" fill="#9B5DE5" opacity=".7"/>
+            <circle cx="10" cy="0" r="7" fill="#E63956" opacity=".55"/>
+            <text y="-51" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">4. Mencerna</text>
+            <text y="-36" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">kuman dihancurkan enzim</text>
+          </g>
+          <path d="M660 65 L 705 65" stroke="#FFE066" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#arrowM)"/>
+          <!-- Tahap 5 -->
+          <g transform="translate(800,65)">
+            <circle r="36" fill="#7BE8C4" opacity=".9" stroke="#fff" stroke-width="1.5"/>
+            <circle r="8" fill="#9B5DE5" opacity=".7"/>
+            <text y="6" text-anchor="middle" fill="#0b0718" font-size="26" font-weight="900">✓</text>
+            <text y="-51" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">5. Bersih</text>
+            <text y="-36" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">sisa dibuang, badan aman</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 7 — TROMBOSIT ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-lav anim" style="--d:.05s">Komponen 4 dari 4</span>
+    <h2 class="anim" style="--d:.15s">Trombosit — Keping Darah</h2>
+    <p class="anim" style="--d:.25s">Si <em>tukang tambal jalan</em>. Tugasnya <strong>menutup luka supaya darah berhenti</strong>.</p>
+
+    <div class="grid g-2" style="align-items:center;margin-top:10px">
+      <!-- Mega → trombosit -->
+      <div class="svg-box anim-left" style="--d:.3s">
+        <svg viewBox="0 0 440 300" width="400">
+          <defs>
+            <radialGradient id="megaG" cx="40%" cy="30%">
+              <stop offset="0%" stop-color="#C8A2FF"/><stop offset="100%" stop-color="#6B21A8"/>
+            </radialGradient>
+          </defs>
+          <!-- Megakariosit -->
+          <text x="100" y="30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="12" font-weight="800">Megakariosit (sel BESAR)</text>
+          <text x="100" y="48" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="10">tinggal di sumsum tulang</text>
+          <circle cx="100" cy="160" r="80" fill="url(#megaG)" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+          <circle cx="100" cy="160" r="50" fill="#6B21A8" opacity=".4"/>
+          <circle cx="76" cy="134" r="7" fill="#C8A2FF" opacity=".9"/>
+          <circle cx="124" cy="142" r="8" fill="#C8A2FF" opacity=".9"/>
+          <circle cx="88" cy="180" r="8" fill="#C8A2FF" opacity=".9"/>
+          <circle cx="130" cy="184" r="7" fill="#C8A2FF" opacity=".9"/>
+          <circle cx="110" cy="160" r="10" fill="#C8A2FF"/>
+          <circle cx="70" cy="175" r="6" fill="#C8A2FF" opacity=".9"/>
+          <circle cx="135" cy="130" r="6" fill="#C8A2FF" opacity=".9"/>
+          <!-- Panah pecah -->
+          <path d="M200 160 L 250 160" stroke="#FFE066" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M243 152 L 253 160 L 243 168" stroke="#FFE066" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="225" y="140" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">pecah!</text>
+          <text x="225" y="185" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">jadi ribuan keping</text>
+          <!-- Trombosit kecil -->
+          <text x="350" y="30" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="12" font-weight="800">Trombosit</text>
+          <text x="350" y="48" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="10">(fragmen kecil)</text>
+          <ellipse cx="310" cy="120" rx="26" ry="16" fill="#C8A2FF" stroke="#fff" stroke-width="1.2"/>
+          <ellipse cx="390" cy="135" rx="24" ry="14" fill="#FFB6D9" stroke="#fff" stroke-width="1.2"/>
+          <ellipse cx="305" cy="180" rx="22" ry="13" fill="#7BE8C4" stroke="#fff" stroke-width="1.2"/>
+          <ellipse cx="385" cy="195" rx="26" ry="15" fill="#FFE066" stroke="#fff" stroke-width="1.2"/>
+          <ellipse cx="350" cy="155" rx="24" ry="14" fill="#88D4FF" stroke="#fff" stroke-width="1.2"/>
+          <ellipse cx="320" cy="230" rx="22" ry="13" fill="#FFC49B" stroke="#fff" stroke-width="1.2"/>
+          <ellipse cx="380" cy="245" rx="24" ry="14" fill="#C8A2FF" stroke="#fff" stroke-width="1.2"/>
+          <!-- Keterangan -->
+          <text x="220" y="285" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">1 megakariosit → ribuan trombosit kecil</text>
+        </svg>
       </div>
 
-      <div class="card c-lav mt-20 maxw-820 mx-auto anim" style="--d:.95s">
-        <h3>⚡ Fungsi Utama Plasma</h3>
-        <ul class="bullet" style="margin-top:6px">
-          <li>Mengangkut nutrisi, hormon, dan sisa metabolisme ke seluruh tubuh</li>
-          <li>Menjaga keseimbangan cairan (tekanan osmotik) &amp; pH darah</li>
-          <li>Membantu proses pembekuan darah saat terjadi luka</li>
-          <li>Menjaga suhu tubuh agar stabil (± 38 °C)</li>
+      <div class="anim-right" style="--d:.4s;text-align:left">
+        <div class="card c-lav" style="margin-bottom:10px">
+          <span class="icon">🧩</span>
+          <h3>Bukan Sel Utuh</h3>
+          <p>Trombosit itu <strong>potongan-potongan sel</strong> raksasa bernama <em>megakariosit</em> yang tinggal di sumsum tulang. Bayangkan seperti <em>remah-remah biskuit</em>.</p>
+        </div>
+        <div class="card c-pink" style="margin-bottom:10px">
+          <span class="icon">🩹</span>
+          <h3>Kerjanya Apa?</h3>
+          <p>Begitu ada luka, trombosit <strong>berbondong-bondong ke lokasi</strong>, menempel satu sama lain, dan membentuk sumbatan sementara (namanya <em>platelet plug</em>).</p>
+        </div>
+        <div class="card c-sunny">
+          <span class="icon">🧠</span>
+          <h3>Analogi Sederhana</h3>
+          <p>Kalau eritrosit = <em>truk pengangkut</em>, leukosit = <em>satpam</em>, maka trombosit = <strong>tukang tambal jalan</strong> yang langsung sigap menutup lubang begitu ada masalah.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="easy anim" style="--d:.55s">
+      <p><strong>Gampangnya:</strong> bayangkan kamu bocor ban motor di jalan. Yang pertama datang biasanya bukan montir — tapi <em>tukang tambal darurat</em> yang nempelin tambalan sementara. Nah, trombosit itu persis seperti itu. Begitu kamu luka, dia langsung "nempel" di luka dan nutup lubang biar darah gak terus mengalir keluar.</p>
+      <span class="real">Contoh: waktu kamu kena DBD (demam berdarah), virusnya <strong>menurunkan jumlah trombosit</strong> sampai &lt; 100.000/µL. Itu sebabnya penderita DBD gampang berdarah (mimisan, bintik merah di kulit) — karena trombositnya kurang, tukang tambalnya sedikit.</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat anim" style="--d:.7s"><span class="val">150rb–400rb</span><div class="lbl">per µL</div></div>
+      <div class="stat anim" style="--d:.78s"><span class="val">5–9 hari</span><div class="lbl">Umur</div></div>
+      <div class="stat anim" style="--d:.86s"><span class="val">±2 µm</span><div class="lbl">Ukuran (kecil banget)</div></div>
+      <div class="stat anim" style="--d:.94s"><span class="val">Tanpa Inti</span><div class="lbl">Fragmen Sel</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8 — PEMBEKUAN ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-peach anim" style="--d:.05s">Proses Biologis</span>
+    <h2 class="anim" style="--d:.15s">Bagaimana Darah Berhenti Saat Luka?</h2>
+    <p class="anim" style="--d:.25s">Ada <strong>5 tahap</strong> yang terjadi otomatis — dalam hitungan detik sampai menit!</p>
+
+    <div class="timeline">
+      <div class="step anim" style="--d:.35s">
+        <div class="num">1</div>
+        <svg viewBox="0 0 100 55"><path d="M10 25 Q 50 12, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M10 25 Q 50 38, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/><text x="50" y="50" text-anchor="middle" fill="#FFE066" font-size="7" font-weight="700">pembuluh menyempit</text></svg>
+        <h4>Vasokonstriksi</h4>
+        <p>Pembuluh darah <strong>menyempit</strong> otomatis. Tujuannya: kurangi darah yang keluar.</p>
+      </div>
+      <div class="step anim" style="--d:.45s">
+        <div class="num">2</div>
+        <svg viewBox="0 0 100 55"><path d="M10 25 Q 50 12, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none"/><ellipse cx="50" cy="25" rx="9" ry="6" fill="#C8A2FF"/><ellipse cx="40" cy="22" rx="6" ry="4" fill="#FFB6D9"/><ellipse cx="60" cy="22" rx="6" ry="4" fill="#FFE066"/><text x="50" y="50" text-anchor="middle" fill="#FFE066" font-size="7" font-weight="700">trombosit nempel</text></svg>
+        <h4>Platelet Plug</h4>
+        <p>Trombosit ramai-ramai datang dan <strong>nempel di luka</strong> seperti plester.</p>
+      </div>
+      <div class="step anim" style="--d:.55s">
+        <div class="num">3</div>
+        <svg viewBox="0 0 100 55"><path d="M10 25 Q 50 12, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none"/><path d="M30 18 Q 50 8, 70 18" stroke="#FFE066" stroke-width="2" fill="none" stroke-dasharray="2 2"/><text x="50" y="13" text-anchor="middle" fill="#FFE066" font-size="7" font-weight="700">trombin</text><text x="50" y="50" text-anchor="middle" fill="#FFE066" font-size="7" font-weight="700">koagulasi</text></svg>
+        <h4>Koagulasi</h4>
+        <p>Zat <strong>protrombin</strong> berubah jadi <em>trombin</em>. Butuh vitamin K &amp; kalsium.</p>
+      </div>
+      <div class="step anim" style="--d:.65s">
+        <div class="num">4</div>
+        <svg viewBox="0 0 100 55"><path d="M10 25 Q 50 12, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none"/><path d="M20 12 L 30 30 M 40 10 L 50 32 M 60 10 L 70 30 M 80 12 L 75 30" stroke="#7BE8C4" stroke-width="2" stroke-linecap="round"/><text x="50" y="50" text-anchor="middle" fill="#FFE066" font-size="7" font-weight="700">jaring fibrin</text></svg>
+        <h4>Fibrin</h4>
+        <p><strong>Fibrinogen</strong> diubah jadi <em>fibrin</em> — jaring yang "menangkap" sel darah.</p>
+      </div>
+      <div class="step anim" style="--d:.75s">
+        <div class="num">5</div>
+        <svg viewBox="0 0 100 55"><path d="M10 25 Q 50 12, 90 25" stroke="#FF6B8A" stroke-width="3" fill="none"/><text x="50" y="35" text-anchor="middle" fill="#7BE8C4" font-size="22" font-weight="900">✓</text><text x="50" y="50" text-anchor="middle" fill="#FFE066" font-size="7" font-weight="700">luka sembuh</text></svg>
+        <h4>Fibrinolisis</h4>
+        <p>Setelah luka menutup, bekuan <strong>dibersihkan</strong>. Darah kembali lancar.</p>
+      </div>
+    </div>
+
+    <div class="easy anim" style="--d:.85s">
+      <p><strong>Gampangnya:</strong> bayangkan waktu kamu kejedug dan lututmu berdarah. Ada <em>alur darurat</em> yang otomatis jalan di tubuhmu:</p>
+      <p>1️⃣ Pembuluh darah langsung <strong>menyempit</strong> — seperti menyempitkan selang biar air gak muncrat.<br>
+      2️⃣ <strong>Trombosit</strong> ramai-ramai datang seperti tukang tambal darurat.<br>
+      3️⃣ Zat kimia bereaksi: <em>protrombin</em> → <em>trombin</em> (butuh Vitamin K &amp; kalsium).<br>
+      4️⃣ Trombin menyuruh <em>fibrinogen</em> jadi <em>fibrin</em> — semacam <strong>jaring laba-laba halus</strong> yang menangkap sel darah merah.<br>
+      5️⃣ Jaring + trombosit + sel darah = <strong>keropeng (koreng)</strong>. Setelah sembuh, keropeng mengelupas.</p>
+      <span class="real">Contoh nyata: orang dengan <strong>hemofilia</strong> (penyakit darah sulit membeku) — kalau luka kecil bisa berdarah berjam-jam, karena salah satu zat pembekuannya kurang.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9 — FUNGSI ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-mint anim" style="--d:.05s">Fungsi Utama</span>
+    <h2 class="anim" style="--d:.15s">Darah Kerjanya Ngapain Aja?</h2>
+    <p class="anim" style="--d:.25s">Ada <strong>3 tugas besar</strong> yang dijalankan darah setiap detik.</p>
+
+    <div class="grid g-3">
+      <div class="card c-sky anim" style="--d:.35s;text-align:center">
+        <div class="svg-box">
+          <svg viewBox="0 0 240 130" width="200">
+            <!-- Paru-paru -->
+            <ellipse cx="50" cy="65" rx="26" ry="34" fill="#88D4FF" opacity=".75"/>
+            <text x="50" y="70" text-anchor="middle" fill="#fff" font-size="10" font-weight="900">PARU</text>
+            <!-- Jaringan -->
+            <rect x="160" y="35" width="60" height="60" rx="8" fill="#FF6B8A" opacity=".85"/>
+            <text x="190" y="62" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">JARINGAN</text>
+            <text x="190" y="78" text-anchor="middle" fill="#fff" font-size="9">tubuh</text>
+            <!-- Panah O2 -->
+            <path d="M82 55 L 155 55" stroke="#FFE066" stroke-width="3" fill="none" marker-end="url(#ao)"/>
+            <defs><marker id="ao" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#FFE066"/></marker></defs>
+            <text x="118" y="48" text-anchor="middle" fill="#FFE066" font-size="10" font-weight="900">O₂ →</text>
+            <!-- Panah CO2 -->
+            <path d="M155 90 L 82 90" stroke="#C8A2FF" stroke-width="3" fill="none" marker-end="url(#ac)"/>
+            <defs><marker id="ac" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#C8A2FF"/></marker></defs>
+            <text x="118" y="103" text-anchor="middle" fill="#C8A2FF" font-size="10" font-weight="900">← CO₂</text>
+            <text x="120" y="125" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">O₂ masuk, CO₂ keluar</text>
+          </svg>
+        </div>
+        <h3>1. Transportasi (Kurir)</h3>
+        <ul class="bullet" style="text-align:left;margin-top:6px">
+          <li><strong>O₂</strong> dari paru → seluruh sel tubuh</li>
+          <li><strong>CO₂</strong> dari sel → paru untuk dibuang</li>
+          <li><strong>Nutrisi</strong> dari usus → seluruh tubuh</li>
+          <li><strong>Hormon</strong> dari kelenjar → organ target</li>
+          <li><strong>Urea</strong> dari hati → ginjal (jadi pipis)</li>
+          <li><strong>Obat</strong> dari lambung → seluruh tubuh</li>
+        </ul>
+      </div>
+      <div class="card c-sunny anim" style="--d:.5s;text-align:center">
+        <div class="svg-box">
+          <svg viewBox="0 0 240 130" width="200">
+            <!-- Termometer -->
+            <rect x="40" y="25" width="14" height="70" rx="7" fill="#fff" opacity=".9"/>
+            <rect x="42" y="55" width="10" height="38" rx="5" fill="#FF6B8A"/>
+            <circle cx="47" cy="100" r="14" fill="#FF6B8A"/>
+            <text x="47" y="20" text-anchor="middle" fill="#FFE066" font-size="10" font-weight="900">38°C</text>
+            <!-- pH scale -->
+            <text x="120" y="30" fill="#FFE066" font-size="10" font-weight="900">pH darah</text>
+            <text x="120" y="48" fill="#fff" font-size="13" font-weight="900">7,35 – 7,45</text>
+            <text x="120" y="65" fill="rgba(255,255,255,.7)" font-size="9">sedikit basa</text>
+            <!-- Cairan seimbang -->
+            <text x="120" y="95" fill="#7BE8C4" font-size="11" font-weight="900">💧 cairan seimbang</text>
+            <text x="120" y="115" fill="rgba(255,255,255,.7)" font-size="9">tidak dehidrasi &amp; tidak kebanjiran</text>
+          </svg>
+        </div>
+        <h3>2. Regulasi (Pengatur)</h3>
+        <ul class="bullet" style="text-align:left;margin-top:6px">
+          <li>Atur <strong>suhu tubuh</strong> (± 38 °C)</li>
+          <li>Jaga <strong>pH darah</strong> (7,35 – 7,45)</li>
+          <li>Seimbangkan <strong>cairan tubuh</strong></li>
+          <li>Sebar <strong>panas</strong> dari organ aktif</li>
+          <li>Jaga kadar <strong>elektrolit</strong> (Na, K, Ca)</li>
+        </ul>
+      </div>
+      <div class="card c-coral anim" style="--d:.65s;text-align:center">
+        <div class="svg-box">
+          <svg viewBox="0 0 240 130" width="200">
+            <!-- Perisai -->
+            <path d="M120 20 L 165 40 L 165 75 Q 165 105, 120 120 Q 75 105, 75 75 L 75 40 Z" fill="#FF6B8A" opacity=".9" stroke="#fff" stroke-width="2"/>
+            <text x="120" y="78" text-anchor="middle" fill="#fff" font-size="30" font-weight="900">🛡</text>
+            <!-- Kuman yang diserang -->
+            <circle cx="55" cy="45" r="7" fill="#9B5DE5"/>
+            <text x="55" y="49" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">✕</text>
+            <circle cx="185" cy="45" r="7" fill="#9B5DE5"/>
+            <text x="185" y="49" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">✕</text>
+            <text x="120" y="125" text-anchor="middle" fill="#FFE066" font-size="10" font-weight="900">melawan kuman &amp; virus</text>
+          </svg>
+        </div>
+        <h3>3. Proteksi (Pelindung)</h3>
+        <ul class="bullet" style="text-align:left;margin-top:6px">
+          <li><strong>Leukosit</strong> makan kuman (fagositosis)</li>
+          <li><strong>Antibodi</strong> menetralkan racun/virus</li>
+          <li><strong>Trombosit</strong> cegah perdarahan</li>
+          <li>Bantu <strong>penyembuhan luka</strong></li>
+          <li>Lawan sel <strong>kanker</strong> &amp; benda asing</li>
         </ul>
       </div>
     </div>
-  </section>
 
-  <!-- ============ SLIDE 5 — ERITROSIT ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-coral anim" style="--d:.05s">Komponen 2 dari 4</span>
-      <h2 class="anim" style="--d:.15s">Eritrosit — Sel Darah Merah</h2>
-
-      <div class="grid g-2" style="align-items:center">
-        <div class="center anim-scale" style="--d:.25s">
-          <svg viewBox="0 0 300 200" width="100%" style="max-width:340px">
-            <defs>
-              <radialGradient id="rbcGrad" cx="35%" cy="30%">
-                <stop offset="0%" stop-color="#FFB6D9"/>
-                <stop offset="40%" stop-color="#FF6B8A"/>
-                <stop offset="100%" stop-color="#9B1B3A"/>
-              </radialGradient>
-              <radialGradient id="dentGrad" cx="50%" cy="50%">
-                <stop offset="0%" stop-color="rgba(0,0,0,.35)"/>
-                <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-              </radialGradient>
-            </defs>
-            <ellipse cx="150" cy="100" rx="130" ry="75" fill="url(#rbcGrad)"/>
-            <ellipse cx="150" cy="100" rx="60" ry="34" fill="url(#dentGrad)"/>
-            <ellipse cx="105" cy="65" rx="26" ry="14" fill="#FFF8EC" opacity=".5"/>
-          </svg>
-          <p style="margin-top:14px;font-size:.9rem;color:rgba(255,255,255,.75)">
-            Bentuk <strong>bikonkaf</strong> — seperti donat pipih tanpa lubang 🍩
-          </p>
-        </div>
-
-        <div class="anim-right" style="--d:.35s;text-align:left">
-          <div class="card c-coral" style="margin-bottom:12px"><span class="icon">🔴</span><h3>Bikonkaf &amp; Fleksibel</h3><p>Bentuk cekung dua sisi → memperluas area permukaan untuk pertukaran gas, dan lentur agar bisa melewati kapiler sempit.</p></div>
-          <div class="card c-peach" style="margin-bottom:12px"><span class="icon">🚫</span><h3>Tanpa Inti &amp; Mitokondria</h3><p>Ruang dipakai untuk hemoglobin, energi didapat dari glikolisis anaerob. Tidak bisa memperbaiki diri → umur terbatas.</p></div>
-          <div class="card c-lav"><span class="icon">🧪</span><h3>Kaya Hemoglobin (Hb)</h3><p>1 sel mengandung ± 270 juta molekul Hb. 1 Hb = 4 molekul O₂. Warna merah berasal dari gugus <em>heme</em> yang mengandung besi (Fe).</p></div>
-        </div>
-      </div>
-
-      <div class="stats">
-        <div class="stat anim" style="--d:.75s"><span class="val">± 5 juta</span><div class="lbl">per µL (Pria)</div></div>
-        <div class="stat anim" style="--d:.83s"><span class="val">± 4,5 juta</span><div class="lbl">per µL (Wanita)</div></div>
-        <div class="stat anim" style="--d:.91s"><span class="val">120 hari</span><div class="lbl">Umur Sel</div></div>
-        <div class="stat anim" style="--d:.99s"><span class="val">2 juta/detik</span><div class="lbl">Produksi</div></div>
-      </div>
+    <div class="easy anim" style="--d:.8s">
+      <p><strong>Gampangnya:</strong> darah itu punya 3 peran kayak petugas di sebuah gedung:</p>
+      <p>🚚 <strong>Transportasi = kurir</strong>. Ngantar oksigen, makanan, dan paket (hormon) ke seluruh lantai gedung (sel). Ngambil sampah (CO₂, urea) buat dibuang.</p>
+      <p>🌡️ <strong>Regulasi = AC &amp; teknisi</strong>. Ngatur suhu biar ruangan tetap nyaman, ngatur pH biar gak terlalu asam/basa, ngatur air biar gak banjir/drought.</p>
+      <p>🛡️ <strong>Proteksi = satpam</strong>. Nangkep maling (virus, bakteri), nambal lubang (luka), dan bikin gedung tetap aman.</p>
+      <span class="real">Contoh: waktu kamu demam, suhu naik karena darah "memanaskan" tubuh untuk membunuh kuman. Setelah kuman mati, suhu kembali normal — itu kerja regulasi.</span>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============ SLIDE 6 — LEUKOSIT ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-mint anim" style="--d:.05s">Komponen 3 dari 4</span>
-      <h2 class="anim" style="--d:.15s">Leukosit — Sel Darah Putih</h2>
-      <p class="anim" style="--d:.25s">Pasukan pertahanan tubuh. Bergerak <em>amoeboid</em> &amp; bisa keluar dari pembuluh (<em>diapedesis</em>). Jumlah normal <strong>4.000 – 11.000/µL</strong>.</p>
+<!-- ============ SLIDE 10 — HEMATOPOIESIS ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-lav anim" style="--d:.05s">Proses Biologis</span>
+    <h2 class="anim" style="--d:.15s">Dari Mana Sel Darah Dibuat?</h2>
+    <p class="anim" style="--d:.25s">Proses ini disebut <strong>hematopoiesis</strong> — terjadi di <em>sumsum tulang merah</em> sepanjang hidupmu.</p>
 
-      <div class="tbl-wrap anim" style="--d:.35s">
+    <div class="svg-box anim" style="--d:.35s">
+      <svg viewBox="0 0 900 380" width="100%" style="max-width:880px">
+        <defs>
+          <radialGradient id="stemG" cx="35%" cy="30%"><stop offset="0%" stop-color="#FFB6D9"/><stop offset="100%" stop-color="#9B5DE5"/></radialGradient>
+        </defs>
+
+        <!-- Sumsum tulang -->
+        <text x="100" y="30" text-anchor="middle" fill="#FFE066" font-size="13" font-weight="900">Sumsum Tulang Merah</text>
+        <text x="100" y="48" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="10">"pabrik" sel darah</text>
+        <ellipse cx="100" cy="180" rx="75" ry="130" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+        <!-- Sel punca -->
+        <circle cx="100" cy="180" r="42" fill="url(#stemG)" stroke="#fff" stroke-width="2"/>
+        <text x="100" y="176" text-anchor="middle" fill="#1a1430" font-size="11" font-weight="900">SEL PUNCA</text>
+        <text x="100" y="192" text-anchor="middle" fill="#1a1430" font-size="9" font-weight="700">(stem cell)</text>
+        <text x="100" y="330" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">bisa jadi sel apa saja</text>
+
+        <!-- Panah keluar -->
+        <path d="M175 180 L 250 180" stroke="#FFE066" stroke-width="3" fill="none"/>
+        <path d="M243 172 L 253 180 L 243 188" stroke="#FFE066" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="212" y="165" text-anchor="middle" fill="#FFE066" font-size="11" font-weight="900">dipecah</text>
+        <text x="212" y="200" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="9">jadi 3 jalur</text>
+
+        <!-- Tiga cabang -->
+        <!-- CABANG 1: Eritrosit -->
+        <path d="M280 180 Q 350 100, 400 100" stroke="#FFB6D9" stroke-width="2.5" fill="none"/>
+        <g transform="translate(510,100)">
+          <ellipse cx="0" cy="0" rx="58" ry="36" fill="#FF6B8A" stroke="#fff" stroke-width="1.5"/>
+          <ellipse cx="0" cy="0" rx="26" ry="13" fill="#7A0B26" opacity=".4"/>
+          <ellipse cx="-22" cy="-12" rx="10" ry="5" fill="#fff" opacity=".4"/>
+          <text x="0" y="4" text-anchor="middle" fill="#fff" font-size="13" font-weight="900">ERITROSIT</text>
+          <text x="0" y="55" text-anchor="middle" fill="rgba(255,255,255,.75)" font-size="10">truk oksigen · umur 120 hari</text>
+          <text x="0" y="72" text-anchor="middle" fill="#FFB6D9" font-size="10" font-weight="700">butuh: zat besi (Fe) + eritropoietin</text>
+        </g>
+        <text x="340" y="130" fill="#FFB6D9" font-size="10" font-weight="800">+ EPO (dari ginjal)</text>
+
+        <!-- CABANG 2: Leukosit -->
+        <path d="M280 180 L 400 180" stroke="#7BE8C4" stroke-width="2.5" fill="none"/>
+        <g transform="translate(510,180)">
+          <circle r="40" fill="#7BE8C4" stroke="#fff" stroke-width="1.5"/>
+          <circle r="18" fill="#0EA5A0" opacity=".8"/>
+          <circle cx="-8" cy="-8" r="4" fill="#fff" opacity=".35"/>
+          <text x="0" y="5" text-anchor="middle" fill="#0b0718" font-size="13" font-weight="900">LEUKOSIT</text>
+          <text x="0" y="58" text-anchor="middle" fill="rgba(255,255,255,.75)" font-size="10">satpam · 5 jenis · melawan kuman</text>
+          <text x="0" y="75" text-anchor="middle" fill="#7BE8C4" font-size="10" font-weight="700">butuh: sitokin &amp; interleukin</text>
+        </g>
+        <text x="340" y="172" fill="#7BE8C4" font-size="10" font-weight="800">+ Sitokin</text>
+
+        <!-- CABANG 3: Trombosit -->
+        <path d="M280 180 Q 350 260, 400 260" stroke="#FFE066" stroke-width="2.5" fill="none"/>
+        <g transform="translate(510,260)">
+          <ellipse rx="55" ry="28" fill="#FFE066" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="4" text-anchor="middle" fill="#1a1430" font-size="13" font-weight="900">TROMBOSIT</text>
+          <text x="0" y="50" text-anchor="middle" fill="rgba(255,255,255,.75)" font-size="10">tambal luka · fragmen megakariosit</text>
+          <text x="0" y="67" text-anchor="middle" fill="#FFE066" font-size="10" font-weight="700">butuh: trombopoietin (TPO)</text>
+        </g>
+        <text x="340" y="235" fill="#FFE066" font-size="10" font-weight="800">+ TPO (dari hati)</text>
+
+        <!-- Nutrisi umum -->
+        <g transform="translate(750,180)">
+          <rect x="-90" y="-80" width="180" height="160" rx="14" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+          <text x="0" y="-58" text-anchor="middle" fill="#FFE066" font-size="12" font-weight="900">BAHAN BAKU</text>
+          <text x="0" y="-30" text-anchor="middle" fill="#FFB6D9" font-size="11" font-weight="700">🥩 Zat besi (Fe)</text>
+          <text x="0" y="-10" text-anchor="middle" fill="#7BE8C4" font-size="11" font-weight="700">🥬 Vitamin B12</text>
+          <text x="0" y="10" text-anchor="middle" fill="#88D4FF" font-size="11" font-weight="700">🥬 Asam folat</text>
+          <text x="0" y="30" text-anchor="middle" fill="#FFC49B" font-size="11" font-weight="700">🍗 Protein</text>
+          <text x="0" y="58" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="9">didapat dari makanan</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="easy anim" style="--d:.55s">
+      <p><strong>Gampangnya:</strong> sumsum tulang merah itu seperti <em>pabrik</em> yang bikin sel darah 24 jam. Bahan bakunya? Makanan yang kamu makan!</p>
+      <p>Di dalam pabrik, ada "induk" bernama <strong>sel punca</strong> yang bisa berubah jadi 3 hal:</p>
+      <p>🔴 <strong>Eritrosit</strong> — butuh zat besi (dari daging, bayam) + hormon EPO dari ginjal.<br>
+      ⚪ <strong>Leukosit</strong> — butuh sitokin, dipicu saat ada infeksi.<br>
+      🟡 <strong>Trombosit</strong> — dipicu hormon TPO dari hati.</p>
+      <span class="real">Contoh: orang yang kurang makan zat besi (misalnya vegetarian yang salah pola makan) bisa kena <strong>anemia defisiensi besi</strong> — karena pabrik kekurangan bahan baku buat bikin Hb.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 11 — GOLONGAN DARAH ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-coral anim" style="--d:.05s">Sistem ABO &amp; Rh</span>
+    <h2 class="anim" style="--d:.15s">Golongan Darah — Kenapa Harus Cocok?</h2>
+    <p class="anim" style="--d:.25s">Klik tombol golongan darah di bawah untuk lihat detail 👇</p>
+
+    <div class="blood-tabs anim" style="--d:.35s">
+      <button class="b-tab active" data-b="A">A</button>
+      <button class="b-tab" data-b="B">B</button>
+      <button class="b-tab" data-b="AB">AB</button>
+      <button class="b-tab" data-b="O">O</button>
+    </div>
+
+    <div class="b-panel anim" style="--d:.45s" id="bPanel"></div>
+
+    <div class="easy anim mt-16 maxw-900 mx-auto" style="--d:.55s">
+      <p><strong>Gampangnya:</strong> golongan darah itu seperti <em>merk HP</em>. Kalau charger-nya beda (golongan beda), HP-nya gak nyala (darahnya menggumpal!).</p>
+      <p>Di permukaan sel darah merah ada "penanda" namanya <strong>antigen</strong>. Kalau kamu punya antigen A = golongan A. Kalau punya antigen A dan B = golongan AB. Kalau tidak punya = golongan O.</p>
+      <p>Di plasma ada "penjaga" namanya <strong>antibodi</strong>. Tugasnya menyerang antigen yang <em>bukan</em> milikmu. Jadi kalau kamu golongan A, antibodimu adalah anti-B — jadi tidak boleh terima darah B.</p>
+      <span class="real">Kalau salah transfusi → antibodi menyerang → sel darah menggumpal (aglutinasi) → bisa fatal!</span>
+    </div>
+
+    <!-- Tabel kompatibilitas -->
+    <div class="card c-lav anim mt-16 maxw-900 mx-auto" style="--d:.65s">
+      <h3 style="text-align:center">🩸 Tabel Kompatibilitas Transfusi Darah</h3>
+      <div class="tbl-wrap" style="margin-top:10px">
         <table>
           <thead>
-            <tr><th>Jenis Sel</th><th>Persentase</th><th>Fungsi Utama</th><th>Kelompok</th></tr>
+            <tr><th>Gol.</th><th>Antigen</th><th>Antibodi</th><th>Bisa terima dari</th><th>Bisa donor ke</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>Neutrofil</strong></td><td>60 – 70 %</td><td>Fagositosis bakteri (pasukan garis depan)</td><td>Granulosit</td></tr>
-            <tr><td><strong>Limfosit</strong></td><td>20 – 30 %</td><td>Membentuk antibodi &amp; imun spesifik (sel T &amp; B)</td><td>Agranulosit</td></tr>
-            <tr><td><strong>Monosit</strong></td><td>3 – 8 %</td><td>Fagositosis, berubah jadi makrofag di jaringan</td><td>Agranulosit</td></tr>
-            <tr><td><strong>Eosinofil</strong></td><td>2 – 4 %</td><td>Melawan parasit &amp; reaksi alergi</td><td>Granulosit</td></tr>
-            <tr><td><strong>Basofil</strong></td><td>0,5 – 1 %</td><td>Melepas histamin (alergi) &amp; heparin (anti beku)</td><td>Granulosit</td></tr>
+            <tr><td><strong>A</strong></td><td>A</td><td>anti-B</td><td>A, O</td><td>A, AB</td></tr>
+            <tr><td><strong>B</strong></td><td>B</td><td>anti-A</td><td>B, O</td><td>B, AB</td></tr>
+            <tr><td><strong>AB</strong> ⭐</td><td>A, B</td><td>—</td><td>Semua</td><td>AB saja</td></tr>
+            <tr><td><strong>O</strong> ⭐</td><td>—</td><td>anti-A, anti-B</td><td>O saja</td><td>Semua</td></tr>
           </tbody>
         </table>
       </div>
-
-      <div class="grid g-3 mt-20">
-        <div class="card c-mint anim" style="--d:.55s"><span class="icon">🟢</span><h3>Granulosit</h3><p>Punya granula di sitoplasma. Terdiri dari neutrofil, eosinofil, dan basofil.</p></div>
-        <div class="card c-sky anim" style="--d:.65s"><span class="icon">🔵</span><h3>Agranulosit</h3><p>Tidak punya granula. Terdiri dari limfosit dan monosit.</p></div>
-        <div class="card c-lav anim" style="--d:.75s"><span class="icon">🎯</span><h3>Mekanisme Kerja</h3><p><strong>Fagositosis</strong> (menelan patogen), <strong>diapedesis</strong> (keluar dari kapiler), dan <strong>kemotaksis</strong> (mendatangi sumber infeksi).</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 7 — TROMBOSIT ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-lav anim" style="--d:.05s">Komponen 4 dari 4</span>
-      <h2 class="anim" style="--d:.15s">Trombosit — Keping Darah</h2>
-      <p class="anim" style="--d:.25s">Bukan sel utuh, melainkan <em>fragmen megakariosit</em> dari sumsum tulang. Berperan besar dalam <strong>hemostasis</strong> (menghentikan perdarahan).</p>
-
-      <div class="stats">
-        <div class="stat anim" style="--d:.35s"><span class="val">150rb – 400rb</span><div class="lbl">per µL Darah</div></div>
-        <div class="stat anim" style="--d:.45s"><span class="val">5 – 9 hari</span><div class="lbl">Umur Rata-rata</div></div>
-        <div class="stat anim" style="--d:.55s"><span class="val">Tanpa Inti</span><div class="lbl">Fragmen Sel</div></div>
-        <div class="stat anim" style="--d:.65s"><span class="val">🩹</span><div class="lbl">Tukang Tambal Luka</div></div>
-      </div>
-
-      <div class="grid g-3 mt-30">
-        <div class="card c-lav anim" style="--d:.75s"><span class="icon">🧩</span><h3>Asal-usul</h3><p>Dihasilkan dari pecahan sel besar bernama <strong>megakariosit</strong> di sumsum tulang merah, dirangsang oleh hormon trombopoietin.</p></div>
-        <div class="card c-pink anim" style="--d:.85s"><span class="icon">💡</span><h3>Fungsi Utama</h3><p>Menempel di luka &amp; membentuk sumbatan awal (platelet plug) sebelum proses pembekuan sempurna terjadi.</p></div>
-        <div class="card c-sunny anim" style="--d:.95s"><span class="icon">🧠</span><h3>Analogi</h3><p>Kalau eritrosit = truk pengangkut &amp; leukosit = satpam, maka trombosit = <strong>tukang tambal jalan</strong> yang sigap menutup lubang.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 8 — PEMBEKUAN ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-peach anim" style="--d:.05s">Proses Biologis</span>
-      <h2 class="anim" style="--d:.15s">Proses Pembekuan Darah</h2>
-      <p class="anim" style="--d:.25s">Terjadi dalam 5 tahap cepat saat tubuh mengalami luka.</p>
-
-      <div class="timeline">
-        <div class="step anim" style="--d:.35s"><div class="num">1</div><h4>Vasokonstriksi</h4><p>Pembuluh darah menyempit → mengurangi aliran darah keluar dari luka.</p></div>
-        <div class="step anim" style="--d:.45s"><div class="num">2</div><h4>Platelet Plug</h4><p>Trombosit menempel di luka &amp; membentuk sumbatan sementara.</p></div>
-        <div class="step anim" style="--d:.55s"><div class="num">3</div><h4>Koagulasi</h4><p>Tromboplastin + Ca²⁺ + Vit K → protrombin jadi <strong>trombin</strong>.</p></div>
-        <div class="step anim" style="--d:.65s"><div class="num">4</div><h4>Fibrin</h4><p>Trombin mengubah fibrinogen → <strong>fibrin</strong> yang menjaring sel darah.</p></div>
-        <div class="step anim" style="--d:.75s"><div class="num">5</div><h4>Fibrinolisis</h4><p>Setelah luka sembuh, bekuan dihancurkan kembali oleh enzim.</p></div>
-      </div>
-
-      <div class="grid g-2 mt-30" style="max-width:900px;margin-left:auto;margin-right:auto">
-        <div class="card c-sunny anim" style="--d:.85s">
-          <h3>🧪 Reaksi Kunci</h3>
-          <p style="line-height:1.9">
-            <strong>Protrombin</strong> + trombin → <span style="color:#FFB6D9">Trombin</span><br>
-            <strong>Fibrinogen</strong> + trombin → <span style="color:#7BE8C4">Fibrin</span> (jaring penutup luka)
-          </p>
-        </div>
-        <div class="card c-lav anim" style="--d:.95s">
-          <h3>⚙️ Faktor Pendukung</h3>
-          <p><strong>Vitamin K</strong> (dari sayuran hijau &amp; bakteri usus) berperan penting membentuk protrombin. Kekurangan Vit K → darah sulit membeku.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 9 — FUNGSI DARAH ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-mint anim" style="--d:.05s">Fungsi Utama</span>
-      <h2 class="anim" style="--d:.15s">Tiga Fungsi Utama Darah</h2>
-
-      <div class="grid g-3">
-        <div class="card c-sky anim" style="--d:.3s">
-          <span class="icon">🚚</span>
-          <h3>1. Transportasi</h3>
-          <ul class="bullet">
-            <li>O₂ dari paru → jaringan</li>
-            <li>CO₂ dari jaringan → paru</li>
-            <li>Nutrisi dari usus → sel</li>
-            <li>Hormon dari kelenjar → target</li>
-            <li>Urea &amp; sisa metabolisme → ginjal / hati</li>
-            <li>Obat &amp; zat asing → hati untuk detoks</li>
-          </ul>
-        </div>
-        <div class="card c-sunny anim" style="--d:.45s">
-          <span class="icon">🌡️</span>
-          <h3>2. Regulasi</h3>
-          <ul class="bullet">
-            <li>Menjaga suhu tubuh tetap stabil (± 38 °C)</li>
-            <li>Menjaga pH darah (7,35 – 7,45)</li>
-            <li>Menjaga keseimbangan cairan tubuh</li>
-            <li>Mendistribusikan panas dari organ aktif ke seluruh tubuh</li>
-            <li>Mengatur kadar air &amp; elektrolit</li>
-          </ul>
-        </div>
-        <div class="card c-coral anim" style="--d:.6s">
-          <span class="icon">🛡️</span>
-          <h3>3. Proteksi</h3>
-          <ul class="bullet">
-            <li>Leukosit melawan patogen (virus, bakteri)</li>
-            <li>Antibodi menetralkan antigen</li>
-            <li>Trombosit mencegah perdarahan</li>
-            <li>Membantu penyembuhan luka &amp; regenerasi</li>
-            <li>Sistem komplemen melisiskan sel asing</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 10 — HEMATOPOIESIS ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-lav anim" style="--d:.05s">Proses Biologis</span>
-      <h2 class="anim" style="--d:.15s">Hematopoiesis</h2>
-      <p class="anim" style="--d:.25s">Proses pembentukan sel darah di <strong>sumsum tulang merah</strong> — terjadi terus-menerus seumur hidup.</p>
-
-      <div class="anim" style="--d:.35s;display:flex;justify-content:center;align-items:center;gap:clamp(10px,2vw,24px);flex-wrap:wrap;margin-top:24px">
-        <div style="padding:18px 26px;border-radius:18px;background:linear-gradient(135deg,#FF6B8A,#9B5DE5);font-weight:800;text-align:center;min-width:150px;box-shadow:0 14px 34px rgba(155,93,229,.5)">
-          Sel Punca<br>Hemopoietik
-        </div>
-        <div style="font-size:clamp(1.2rem,2vw,1.7rem);color:#FFE066;font-weight:900">➜</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:12px 22px;border-radius:14px;background:linear-gradient(135deg,#FF6B8A,#7A0B26);font-weight:800;text-align:center;min-width:140px">🔴 Eritrosit</div>
-          <div style="padding:12px 22px;border-radius:14px;background:linear-gradient(135deg,#7BE8C4,#0EA5A0);font-weight:800;text-align:center;min-width:140px;color:#0f0a1e">⚪ Leukosit</div>
-          <div style="padding:12px 22px;border-radius:14px;background:linear-gradient(135deg,#FFE066,#FFB627);font-weight:800;text-align:center;min-width:140px;color:#0f0a1e">🟡 Trombosit</div>
-        </div>
-      </div>
-
-      <div class="grid g-3 mt-30">
-        <div class="card c-coral anim" style="--d:.55s"><span class="icon">🫘</span><h3>Eritropoietin (EPO)</h3><p>Hormon dari ginjal → memicu produksi eritrosit saat kadar O₂ darah rendah (misal di dataran tinggi).</p></div>
-        <div class="card c-sunny anim" style="--d:.65s"><span class="icon">🧪</span><h3>Trombopoietin (TPO)</h3><p>Hormon dari hati → merangsang sumsum tulang memproduksi megakariosit → trombosit.</p></div>
-        <div class="card c-mint anim" style="--d:.75s"><span class="icon">🥬</span><h3>Nutrisi Penting</h3><p><strong>Zat besi</strong> (untuk heme), <strong>vitamin B12</strong> &amp; <strong>asam folat</strong> (untuk DNA), serta protein untuk sintesis Hb.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 11 — GOLONGAN DARAH ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-coral anim" style="--d:.05s">Sistem ABO &amp; Rh</span>
-      <h2 class="anim" style="--d:.15s">Golongan Darah</h2>
-      <p class="anim" style="--d:.25s">Klik golongan darah untuk melihat detailnya 👇</p>
-
-      <div class="blood-tabs anim" style="--d:.35s">
-        <button class="b-tab active" data-b="A">A</button>
-        <button class="b-tab" data-b="B">B</button>
-        <button class="b-tab" data-b="AB">AB</button>
-        <button class="b-tab" data-b="O">O</button>
-      </div>
-
-      <div class="b-panel anim" style="--d:.45s" id="bPanel"></div>
-
-      <div class="grid g-2 mt-20" style="max-width:900px;margin-left:auto;margin-right:auto">
-        <div class="card c-lav anim" style="--d:.55s">
-          <h3>🩸 Faktor Rh</h3>
-          <p><strong>Rh+</strong> punya antigen D di eritrosit, <strong>Rh−</strong> tidak punya. Jika ibu Rh− mengandung bayi Rh+, bisa terjadi <em>eritroblastosis fetalis</em> pada kehamilan berikutnya.</p>
-        </div>
-        <div class="card c-pink anim" style="--d:.65s">
-          <h3>⚠️ Reaksi Transfusi</h3>
-          <p>Jika golongan darah tidak cocok, antibodi resipien akan menyerang antigen donor → <strong>aglutinasi</strong> (penggumpalan) yang berbahaya.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 12 — GANGGUAN ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-coral anim" style="--d:.05s">Klinis</span>
-      <h2 class="anim" style="--d:.15s">Gangguan pada Darah</h2>
-      <p class="anim" style="--d:.25s">Beberapa penyakit &amp; kelainan yang berkaitan dengan darah.</p>
-
-      <div class="grid g-3">
-        <div class="card c-coral anim" style="--d:.35s"><span class="icon">🩸</span><h3>Anemia</h3><p>Kekurangan Hb/eritrosit. Gejala: lemas, pucat, pusing. Jenis: defisiensi besi, megaloblastik, thalasemia, sickle cell.</p></div>
-        <div class="card c-pink anim" style="--d:.45s"><span class="icon">🎗️</span><h3>Leukemia</h3><p>Kanker sel darah putih → produksi leukosit abnormal yang menumpuk di sumsum &amp; darah, mengganggu sel normal.</p></div>
-        <div class="card c-sky anim" style="--d:.55s"><span class="icon">🧬</span><h3>Hemofilia</h3><p>Gangguan faktor pembekuan (VIII/IX) → mudah berdarah &amp; sulit berhenti. Bersifat genetik terkait kromosom X.</p></div>
-        <div class="card c-peach anim" style="--d:.65s"><span class="icon">🦟</span><h3>Trombositopenia</h3><p>Trombosit menurun drastis (&lt; 100rb/µL) — misalnya pada demam berdarah dengue.</p></div>
-        <div class="card c-lav anim" style="--d:.75s"><span class="icon">⚠️</span><h3>Trombosis / Emboli</h3><p>Bekuan darah menyumbat pembuluh → risiko stroke atau serangan jantung.</p></div>
-        <div class="card c-sunny anim" style="--d:.85s"><span class="icon">🫀</span><h3>Aterosklerosis</h3><p>Penumpukan plak lemak (kolesterol) di dinding arteri → aliran darah terganggu.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 13 — FAKTA UNIK ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-sunny anim" style="--d:.05s">Fun Facts</span>
-      <h2 class="anim" style="--d:.15s">Fakta Unik Darah</h2>
-
-      <div class="grid g-2">
-        <div class="fact anim" style="--d:.3s"><span class="fnum">01</span><p>Setiap detik, sumsum tulang memproduksi sekitar <strong>2 juta eritrosit</strong> baru.</p></div>
-        <div class="fact anim" style="--d:.4s"><span class="fnum">02</span><p>Eritrosit hidup sekitar <strong>120 hari</strong>, lalu dirombak dan didaur ulang di limpa &amp; hati.</p></div>
-        <div class="fact anim" style="--d:.5s"><span class="fnum">03</span><p>Plasma darah sebenarnya berwarna <strong>kuning</strong>, bukan merah.</p></div>
-        <div class="fact anim" style="--d:.6s"><span class="fnum">04</span><p>Darah manusia tidak berwarna biru — pembuluh tampak kebiruan karena <strong>cahaya &amp; kulit</strong>.</p></div>
-        <div class="fact anim" style="--d:.7s"><span class="fnum">05</span><p>Satu kantong darah dari donor bisa <strong>menyelamatkan hingga 3 nyawa</strong>.</p></div>
-        <div class="fact anim" style="--d:.8s"><span class="fnum">06</span><p>Total panjang seluruh pembuluh darah manusia mencapai <strong>± 100.000 km</strong> — 2,5× keliling Bumi!</p></div>
-        <div class="fact anim" style="--d:.9s"><span class="fnum">07</span><p>Jantung memompa sekitar <strong>7.500 liter</strong> darah per hari — cukup untuk mengisi 40 tangki bensin.</p></div>
-        <div class="fact anim" style="--d:1s"><span class="fnum">08</span><p>Golongan darah O− disebut <strong>donor universal</strong>, sedangkan AB+ disebut <strong>resipien universal</strong>.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 14 — RANGKUMAN ============ -->
-  <section class="slide">
-    <div class="content">
-      <span class="badge b-lav anim" style="--d:.05s">Rangkuman</span>
-      <h2 class="anim" style="--d:.15s">Poin-Poin Penting</h2>
-
-      <div class="grid g-2">
-        <div class="card c-coral anim" style="--d:.3s"><span class="icon">🧩</span><h3>Komposisi</h3><p>Plasma (55 %) + Eritrosit (45 %) + Buffy coat (&lt; 1 % = leukosit &amp; trombosit).</p></div>
-        <div class="card c-sunny anim" style="--d:.4s"><span class="icon">💧</span><h3>Plasma</h3><p>91–92 % air. Protein: albumin, globulin, fibrinogen. Plus hormon, nutrisi, sisa metabolisme.</p></div>
-        <div class="card c-sky anim" style="--d:.5s"><span class="icon">🔴</span><h3>Eritrosit</h3><p>Bikonkaf, tanpa inti, mengandung Hb. Umur 120 hari. Dibentuk di sumsum tulang merah.</p></div>
-        <div class="card c-mint anim" style="--d:.6s"><span class="icon">⚪</span><h3>Leukosit</h3><p>5 jenis: neutrofil, limfosit, monosit, eosinofil, basofil. Pertahanan tubuh terhadap patogen.</p></div>
-        <div class="card c-lav anim" style="--d:.7s"><span class="icon">🩹</span><h3>Trombosit</h3><p>Fragmen megakariosit. 150rb–400rb/µL. Berperan dalam hemostasis (pembekuan).</p></div>
-        <div class="card c-peach anim" style="--d:.8s"><span class="icon">🎯</span><h3>Fungsi Utama</h3><p><strong>Transportasi</strong> · <strong>Regulasi</strong> · <strong>Proteksi</strong>.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 15 — TERIMA KASIH ============ -->
-  <section class="slide">
-    <div class="content center">
-      <span class="badge b-sunny anim" style="--d:.05s">✦ Penutup ✦</span>
-      <h2 class="anim" style="--d:.15s" style="font-size:clamp(1.8rem,4vw,2.6rem)">Terima Kasih</h2>
-
-      <svg class="heart-svg anim-scale" style="--d:.3s;margin-top:20px" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="hg2" cx="35%" cy="30%">
-            <stop offset="0%" stop-color="#FFD1E0"/>
-            <stop offset="45%" stop-color="#FF6B8A"/>
-            <stop offset="100%" stop-color="#9B1B3A"/>
-          </radialGradient>
-        </defs>
-        <path d="M100 170 C 30 120, 10 70, 40 40 C 65 15, 95 25, 100 55 C 105 25, 135 15, 160 40 C 190 70, 170 120, 100 170 Z" fill="url(#hg2)" stroke="#FFB6D9" stroke-width="2"/>
-        <ellipse cx="70" cy="55" rx="14" ry="9" fill="#FFF8EC" opacity=".55"/>
-      </svg>
-
-      <p class="anim" style="--d:.45s;font-size:clamp(1rem,2vw,1.35rem);color:rgba(255,255,255,.85);letter-spacing:3px;margin-top:10px">ADA PERTANYAAN?</p>
-
-      <div class="anim" style="--d:.6s;margin-top:30px">
-        <div class="title-group">KELOMPOK <span>6</span></div>
-      </div>
-
-      <p class="anim" style="--d:.7s;color:rgba(255,255,255,.6);font-size:.85rem;letter-spacing:2px;margin-top:18px">
-        Athailla · Aira · Bintang · Marsa · Risya
+      <p style="text-align:center;margin-top:10px;font-size:.85rem;color:rgba(255,255,255,.75)">
+        ⭐ <strong>AB</strong> = resipien universal (bisa terima apa saja) · <strong>O</strong> = donor universal (bisa kasih ke siapa saja)
       </p>
     </div>
-  </section>
+
+    <!-- Rh -->
+    <div class="grid g-2 mt-16 maxw-900 mx-auto">
+      <div class="card c-pink anim" style="--d:.75s">
+        <div class="flex-center" style="gap:14px;justify-content:flex-start">
+          <svg width="70" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="30" fill="#FFB6D9" stroke="#fff" stroke-width="1.5"/>
+            <text x="45" y="42" text-anchor="middle" fill="#1a1430" font-size="12" font-weight="900">Rh+</text>
+            <text x="45" y="58" text-anchor="middle" fill="#1a1430" font-size="9">punya antigen D</text>
+          </svg>
+          <div><h3>Rh Positif (+)</h3><p>Sel darah merah punya antigen D.</p></div>
+        </div>
+      </div>
+      <div class="card c-lav anim" style="--d:.85s">
+        <div class="flex-center" style="gap:14px;justify-content:flex-start">
+          <svg width="70" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="30" fill="#C8A2FF" stroke="#fff" stroke-width="1.5"/>
+            <text x="45" y="42" text-anchor="middle" fill="#1a1430" font-size="12" font-weight="900">Rh−</text>
+            <text x="45" y="58" text-anchor="middle" fill="#1a1430" font-size="9">tidak ada antigen D</text>
+          </svg>
+          <div><h3>Rh Negatif (−)</h3><p>Tidak punya antigen D.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="easy anim" style="--d:.95s">
+      <p><strong>Gampangnya tentang Rh:</strong> selain sistem ABO, ada <em>penanda tambahan</em> namanya <strong>Rh</strong>. Kalau punya antigen D → Rh+. Kalau tidak → Rh−.</p>
+      <p>Kenapa penting? <strong>Ibu Rh− yang hamil bayi Rh+</strong> bisa bahaya. Darah ibu bisa "kenal" darah bayi sebagai musuh, dan pada kehamilan berikutnya menyerang bayi. Namanya <em>eritroblastosis fetalis</em>. Untungnya sekarang ada suntikan pencegahan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 12 — GANGGUAN ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-coral anim" style="--d:.05s">Klinis</span>
+    <h2 class="anim" style="--d:.15s">Penyakit &amp; Gangguan Darah</h2>
+    <p class="anim" style="--d:.25s">Kalau salah satu bagian darah bermasalah, tubuh jadi ikut bermasalah.</p>
+
+    <div class="grid g-3">
+      <div class="card c-coral anim" style="--d:.35s">
+        <span class="icon">🩸</span>
+        <h3>Anemia</h3>
+        <p><strong>Apa:</strong> kurang Hb atau kurang sel darah merah.</p>
+        <p><strong>Kenapa:</strong> kurang zat besi, thalasemia (kelainan genetik), sickle cell.</p>
+        <p><strong>Gejala:</strong> pucat, lemas, pusing, gampang ngos-ngosan.</p>
+      </div>
+      <div class="card c-pink anim" style="--d:.45s">
+        <span class="icon">🎗️</span>
+        <h3>Leukemia</h3>
+        <p><strong>Apa:</strong> kanker sel darah putih.</p>
+        <p><strong>Kenapa:</strong> sel darah putih tumbuh abnormal &amp; tidak terkendali.</p>
+        <p><strong>Gejala:</strong> demam terus, mudah memar, gampang infeksi.</p>
+      </div>
+      <div class="card c-sky anim" style="--d:.55s">
+        <span class="icon">🧬</span>
+        <h3>Hemofilia</h3>
+        <p><strong>Apa:</strong> darah sulit membeku.</p>
+        <p><strong>Kenapa:</strong> kurang faktor pembekuan VIII / IX. Gen-nya di kromosom X → lebih banyak ke pria.</p>
+        <p><strong>Gejala:</strong> luka kecil berdarah lama, sering mimisan.</p>
+      </div>
+      <div class="card c-peach anim" style="--d:.65s">
+        <span class="icon">🦟</span>
+        <h3>Trombositopenia</h3>
+        <p><strong>Apa:</strong> trombosit turun drastis (&lt;100rb/µL).</p>
+        <p><strong>Kenapa:</strong> sering pada DBD (demam berdarah dengue) karena virus merusak trombosit.</p>
+        <p><strong>Gejala:</strong> bintik merah, mimisan, gusi berdarah.</p>
+      </div>
+      <div class="card c-lav anim" style="--d:.75s">
+        <span class="icon">⚠️</span>
+        <h3>Trombosis / Emboli</h3>
+        <p><strong>Apa:</strong> bekuan darah nyangkut &amp; nyumbat pembuluh.</p>
+        <p><strong>Bahaya:</strong> kalau di otak → stroke; kalau di jantung → serangan jantung.</p>
+      </div>
+      <div class="card c-sunny anim" style="--d:.85s">
+        <span class="icon">🫀</span>
+        <h3>Aterosklerosis</h3>
+        <p><strong>Apa:</strong> plak lemak (kolesterol) numpuk di dinding arteri.</p>
+        <p><strong>Efek:</strong> pembuluh menyempit → darah susah lewat.</p>
+        <p><strong>Penyebab:</strong> sering makan berlemak, kurang gerak, merokok.</p>
+      </div>
+    </div>
+
+    <div class="easy anim" style="--d:.95s">
+      <p><strong>Gampangnya:</strong> setiap bagian darah punya "penyakitnya sendiri" kalau rusak:</p>
+      <p>• Eritrosit kurang → <strong>anemia</strong> (badan lemas, pucat).<br>
+      • Leukosit ngaco → <strong>leukemia</strong> (kanker darah putih).<br>
+      • Trombosit kurang → <strong>gampang berdarah</strong> (misal DBD).<br>
+      • Faktor pembekuan kurang → <strong>hemofilia</strong> (darah susah berhenti).<br>
+      • Bekuan nyangkut → <strong>stroke / serangan jantung</strong>.<br>
+      • Plak lemak numpuk → <strong>pembuluh tersumbat</strong>.</p>
+      <span class="real">Pencegahan paling gampang: makan makanan bergizi (kaya zat besi &amp; vitamin), olahraga rutin, jangan merokok, dan cek kesehatan berkala.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 13 — FAKTA UNIK ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-sunny anim" style="--d:.05s">Fun Facts</span>
+    <h2 class="anim" style="--d:.15s">Fakta Unik yang Bikin "WOW"</h2>
+
+    <div class="grid g-2">
+      <div class="fact anim" style="--d:.3s"><span class="fic">🔬</span><p>Setiap <strong>1 detik</strong>, sumsum tulangmu memproduksi sekitar <strong>2 juta sel darah merah</strong> baru. Gila banyaknya!</p></div>
+      <div class="fact anim" style="--d:.4s"><span class="fic">⏳</span><p>Satu sel darah merah hidup <strong>120 hari</strong> (± 4 bulan). Setelah itu dirombak &amp; didaur ulang di limpa &amp; hati.</p></div>
+      <div class="fact anim" style="--d:.5s"><span class="fic">🟡</span><p>Plasma itu sebenarnya <strong>warna kuning</strong>, bukan merah! Yang bikin merah itu sel darahnya.</p></div>
+      <div class="fact anim" style="--d:.6s"><span class="fic">💙</span><p>Darah manusia <strong>tidak berwarna biru</strong>. Pembuluh tampak kebiruan karena efek cahaya &amp; kulit. Di dalam, semuanya merah.</p></div>
+      <div class="fact anim" style="--d:.7s"><span class="fic">🎁</span><p>1 kantong darah dari donor bisa <strong>menyelamatkan 3 nyawa</strong>. Donor darah itu heroik!</p></div>
+      <div class="fact anim" style="--d:.8s"><span class="fic">🌍</span><p>Total panjang pembuluh darah manusia ± <strong>100.000 km</strong>. Itu <strong>2,5× keliling Bumi</strong>! Kalau diluruskan dari Jakarta bisa sampai London bolak-balik.</p></div>
+      <div class="fact anim" style="--d:.9s"><span class="fic">💗</span><p>Jantungmu memompa ± <strong>7.500 liter</strong> darah per hari. Cukup untuk mengisi 40 tangki bensin!</p></div>
+      <div class="fact anim" style="--d:1s"><span class="fic">🅾️</span><p>Golongan <strong>O−</strong> disebut <em>donor universal</em> — bisa kasih ke siapa saja. <strong>AB+</strong> = <em>resipien universal</em> — bisa terima dari siapa saja.</p></div>
+      <div class="fact anim" style="--d:1.1s"><span class="fic">🦟</span><p>Nyamuk bisa "menularkan" darah dari orang ke orang. Itu sebabnya DBD menular lewat nyamuk Aedes aegypti.</p></div>
+      <div class="fact anim" style="--d:1.2s"><span class="fic">👶</span><p>Waktu bayi baru lahir, sumsum tulang <em>seluruh tulang</em> bisa bikin darah. Setelah dewasa, cuma di tulang tertentu (panggul, dada, tengkorak).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 14 — RANGKUMAN ============ -->
+<section class="slide">
+  <div class="content">
+    <span class="badge b-lav anim" style="--d:.05s">Rangkuman</span>
+    <h2 class="anim" style="--d:.15s">Intinya Apa? Ini Ringkasannya</h2>
+
+    <div class="svg-box anim" style="--d:.3s">
+      <svg viewBox="0 0 900 380" width="100%" style="max-width:880px">
+        <defs>
+          <radialGradient id="centerG" cx="35%" cy="30%"><stop offset="0%" stop-color="#FFB6D9"/><stop offset="100%" stop-color="#9B5DE5"/></radialGradient>
+        </defs>
+        <!-- Tengah -->
+        <circle cx="450" cy="190" r="70" fill="url(#centerG)" stroke="#fff" stroke-width="2"/>
+        <text x="450" y="182" text-anchor="middle" fill="#1a1430" font-size="16" font-weight="900">DARAH</text>
+        <text x="450" y="202" text-anchor="middle" fill="#1a1430" font-size="10" font-weight="700">jaringan ikat cair</text>
+
+        <!-- Cabang: Komposisi -->
+        <path d="M382 152 Q 320 100, 260 100" stroke="#FFB6D9" stroke-width="2.5" fill="none"/>
+        <circle cx="180" cy="100" r="58" fill="#FFB6D9" stroke="#fff" stroke-width="1.5"/>
+        <text x="180" y="94" text-anchor="middle" fill="#1a1430" font-size="12" font-weight="900">KOMPOSISI</text>
+        <text x="180" y="112" text-anchor="middle" fill="#1a1430" font-size="10">55% + &lt;1% + 45%</text>
+
+        <!-- Cabang: Plasma -->
+        <path d="M382 175 Q 320 175, 260 175" stroke="#FFE066" stroke-width="2.5" fill="none"/>
+        <circle cx="180" cy="175" r="58" fill="#FFE066" stroke="#fff" stroke-width="1.5"/>
+        <text x="180" y="170" text-anchor="middle" fill="#1a1430" font-size="12" font-weight="900">PLASMA</text>
+        <text x="180" y="188" text-anchor="middle" fill="#1a1430" font-size="10">air + protein + zat</text>
+
+        <!-- Cabang: Eritrosit -->
+        <path d="M382 205 Q 320 240, 260 240" stroke="#FF6B8A" stroke-width="2.5" fill="none"/>
+        <circle cx="180" cy="240" r="58" fill="#FF6B8A" stroke="#fff" stroke-width="1.5"/>
+        <text x="180" y="234" text-anchor="middle" fill="#fff" font-size="12" font-weight="900">ERITROSIT</text>
+        <text x="180" y="252" text-anchor="middle" fill="#fff" font-size="10">bikonkaf · Hb</text>
+
+        <!-- Cabang: Leukosit -->
+        <path d="M382 230 Q 320 290, 260 290" stroke="#7BE8C4" stroke-width="2.5" fill="none"/>
+        <circle cx="180" cy="300" r="58" fill="#7BE8C4" stroke="#fff" stroke-width="1.5"/>
+        <text x="180" y="294" text-anchor="middle" fill="#0b0718" font-size="12" font-weight="900">LEUKOSIT</text>
+        <text x="180" y="312" text-anchor="middle" fill="#0b0718" font-size="10">5 jenis · imun</text>
+
+        <!-- Cabang kanan: Trombosit -->
+        <path d="M518 152 Q 580 100, 640 100" stroke="#C8A2FF" stroke-width="2.5" fill="none"/>
+        <circle cx="720" cy="100" r="58" fill="#C8A2FF" stroke="#fff" stroke-width="1.5"/>
+        <text x="720" y="94" text-anchor="middle" fill="#1a1430" font-size="12" font-weight="900">TROMBOSIT</text>
+        <text x="720" y="112" text-anchor="middle" fill="#1a1430" font-size="10">tambal luka</text>
+
+        <!-- Cabang kanan: Fungsi -->
+        <path d="M518 175 Q 580 175, 640 175" stroke="#FFE066" stroke-width="2.5" fill="none"/>
+        <circle cx="720" cy="175" r="58" fill="#FFE066" stroke="#fff" stroke-width="1.5"/>
+        <text x="720" y="170" text-anchor="middle" fill="#1a1430" font-size="12" font-weight="900">FUNGSI</text>
+        <text x="720" y="188" text-anchor="middle" fill="#1a1430" font-size="10">trans · reg · prot</text>
+
+        <!-- Cabang kanan: Golongan -->
+        <path d="M518 205 Q 580 240, 640 240" stroke="#88D4FF" stroke-width="2.5" fill="none"/>
+        <circle cx="720" cy="240" r="58" fill="#88D4FF" stroke="#fff" stroke-width="1.5"/>
+        <text x="720" y="234" text-anchor="middle" fill="#1a1430" font-size="12" font-weight="900">GOL. DARAH</text>
+        <text x="720" y="252" text-anchor="middle" fill="#1a1430" font-size="10">ABO &amp; Rh</text>
+
+        <!-- Cabang kanan: Gangguan -->
+        <path d="M518 230 Q 580 290, 640 290" stroke="#FF6B8A" stroke-width="2.5" fill="none"/>
+        <circle cx="720" cy="300" r="58" fill="#FF6B8A" stroke="#fff" stroke-width="1.5"/>
+        <text x="720" y="294" text-anchor="middle" fill="#fff" font-size="12" font-weight="900">GANGGUAN</text>
+        <text x="720" y="312" text-anchor="middle" fill="#fff" font-size="10">anemia · leukemia</text>
+      </svg>
+    </div>
+
+    <div class="easy anim" style="--d:.55s">
+      <p><strong>Kalau cuma boleh ingat 3 hal, ini dia:</strong></p>
+      <p>1️⃣ <strong>Darah = plasma (55%) + sel darah (45%).</strong> Ada sel merah (angkut O₂), sel putih (lawan kuman), dan trombosit (tambal luka).</p>
+      <p>2️⃣ <strong>Fungsi darah ada 3:</strong> transportasi (kurir), regulasi (pengatur), proteksi (satpam).</p>
+      <p>3️⃣ <strong>Golongan darah penting banget</strong> buat transfusi. Kalau salah, bisa bahaya. O = donor universal, AB = resipien universal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 15 — TERIMA KASIH ============ -->
+<section class="slide">
+  <div class="content center">
+    <span class="badge b-sunny anim" style="--d:.05s">✦ Penutup ✦</span>
+    <h2 class="anim" style="--d:.15s">Terima Kasih!</h2>
+
+    <svg class="heart-svg anim-scale" style="--d:.3s;margin-top:16px" viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hg2" cx="35%" cy="30%">
+          <stop offset="0%" stop-color="#FFD1E0"/>
+          <stop offset="45%" stop-color="#FF6B8A"/>
+          <stop offset="100%" stop-color="#9B1B3A"/>
+        </radialGradient>
+      </defs>
+      <path d="M120 200 C 40 145, 15 85, 50 50 C 80 22, 115 35, 120 70 C 125 35, 160 22, 190 50 C 225 85, 200 145, 120 200 Z" fill="url(#hg2)" stroke="#FFB6D9" stroke-width="2"/>
+      <ellipse cx="85" cy="70" rx="17" ry="11" fill="#FFF8EC" opacity=".55"/>
+      <circle cx="45" cy="180" r="10" fill="#C8A2FF" opacity=".85"/>
+      <circle cx="200" cy="180" r="8" fill="#7BE8C4" opacity=".8"/>
+      <circle cx="210" cy="40" r="7" fill="#FFE066" opacity=".9"/>
+      <circle cx="30" cy="40" r="6" fill="#88D4FF" opacity=".85"/>
+    </svg>
+
+    <p class="anim" style="--d:.45s;font-size:clamp(.95rem,1.9vw,1.28rem);color:rgba(255,255,255,.85);letter-spacing:3px;margin-top:10px">ADA PERTANYAAN?</p>
+
+    <div class="anim" style="--d:.6s;margin-top:24px">
+      <div class="title-group">KELOMPOK <span>6</span></div>
+    </div>
+
+    <p class="anim" style="--d:.7s;color:rgba(255,255,255,.6);font-size:.85rem;letter-spacing:2px;margin-top:14px">
+      Athailla · Aira · Bintang · Marsa · Risya
+    </p>
+  </div>
+</section>
 
 </div>
 
@@ -1103,147 +1414,89 @@ td strong{color:#FFE066}
 </nav>
 
 <script>
-/* ============ PARTICLES (lightweight) ============ */
-(function makeParticles(){
-  const wrap = document.getElementById('particles');
-  const n = window.innerWidth < 600 ? 14 : 24;
-  for (let i = 0; i < n; i++){
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const s = 2 + Math.random() * 5;
-    p.style.width = s + 'px';
-    p.style.height = s + 'px';
-    p.style.left = Math.random() * 100 + 'vw';
-    p.style.animationDuration = (16 + Math.random() * 24) + 's';
-    p.style.animationDelay = (-Math.random() * 30) + 's';
-    wrap.appendChild(p);
+/* PARTICLES */
+(function(){
+  const w=document.getElementById('particles');
+  const n=window.innerWidth<600?12:22;
+  for(let i=0;i<n;i++){
+    const p=document.createElement('div');p.className='particle';
+    const s=2+Math.random()*4;p.style.width=s+'px';p.style.height=s+'px';
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDuration=(16+Math.random()*24)+'s';
+    p.style.animationDelay=(-Math.random()*30)+'s';
+    w.appendChild(p);
   }
 })();
 
-/* ============ NAV ============ */
-const slides = document.querySelectorAll('.slide');
-const total = slides.length;
-const progress = document.getElementById('progress');
-const curC = document.getElementById('curSlide');
-const totC = document.getElementById('totSlide');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const dotsWrap = document.getElementById('dots');
-let idx = 0;
-totC.textContent = total;
-
-slides.forEach((_, i) => {
-  const d = document.createElement('div');
-  d.className = 'dotnav' + (i === 0 ? ' active' : '');
-  d.addEventListener('click', () => goTo(i));
-  dotsWrap.appendChild(d);
+/* NAV */
+const slides=document.querySelectorAll('.slide'),total=slides.length;
+const progress=document.getElementById('progress'),curC=document.getElementById('curSlide'),totC=document.getElementById('totSlide');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),dotsWrap=document.getElementById('dots');
+let idx=0;totC.textContent=total;
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dotnav'+(i===0?' active':'');d.addEventListener('click',()=>goTo(i));dotsWrap.appendChild(d);});
+const dots=document.querySelectorAll('.dotnav');
+function render(){slides.forEach((s,i)=>{s.classList.remove('active','prev');if(i===idx)s.classList.add('active');else if(i<idx)s.classList.add('prev');});dots.forEach((d,i)=>d.classList.toggle('active',i===idx));progress.style.width=(idx/(total-1))*100+'%';curC.textContent=idx+1;prevBtn.disabled=idx===0;nextBtn.disabled=idx===total-1;}
+function goTo(i){if(i<0||i>=total||i===idx)return;idx=i;render();}
+prevBtn.addEventListener('click',()=>goTo(idx-1));
+nextBtn.addEventListener('click',()=>goTo(idx+1));
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();goTo(idx+1);}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();goTo(idx-1);}
+  else if(e.key==='Home')goTo(0);else if(e.key==='End')goTo(total-1);
+  else if(e.key.toLowerCase()==='f')toggleFs();
 });
-const dots = document.querySelectorAll('.dotnav');
+let tx=0,ty=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;const dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy))dx<0?goTo(idx+1):goTo(idx-1);},{passive:true});
+const fsBtn=document.getElementById('fsBtn');
+function toggleFs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();}
+fsBtn.addEventListener('click',toggleFs);
 
-function render(){
-  slides.forEach((s, i) => {
-    s.classList.remove('active','prev');
-    if (i === idx) s.classList.add('active');
-    else if (i < idx) s.classList.add('prev');
-  });
-  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  progress.style.width = (idx / (total - 1)) * 100 + '%';
-  curC.textContent = idx + 1;
-  prevBtn.disabled = idx === 0;
-  nextBtn.disabled = idx === total - 1;
-}
-function goTo(i){ if(i < 0 || i >= total || i === idx) return; idx = i; render(); }
-
-prevBtn.addEventListener('click', () => goTo(idx - 1));
-nextBtn.addEventListener('click', () => goTo(idx + 1));
-
-document.addEventListener('keydown', e => {
-  if (['ArrowRight',' ','PageDown'].includes(e.key)) { e.preventDefault(); goTo(idx + 1); }
-  else if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); goTo(idx - 1); }
-  else if (e.key === 'Home') goTo(0);
-  else if (e.key === 'End')  goTo(total - 1);
-  else if (e.key.toLowerCase() === 'f') toggleFs();
-});
-
-/* Swipe */
-let tx = 0, ty = 0;
-document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive:true });
-document.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - tx;
-  const dy = e.changedTouches[0].clientY - ty;
-  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? goTo(idx + 1) : goTo(idx - 1);
-}, { passive:true });
-
-/* Fullscreen */
-const fsBtn = document.getElementById('fsBtn');
-function toggleFs(){
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
-  else document.exitFullscreen?.();
-}
-fsBtn.addEventListener('click', toggleFs);
-
-/* ============ CARD MAGNETIC GLOW (halus) ============ */
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const mx = ((e.clientX - r.left) / r.width) * 100;
-    const my = ((e.clientY - r.top) / r.height) * 100;
-    card.style.setProperty('--mx', mx + '%');
-    card.style.setProperty('--my', my + '%');
+/* CARD MAGNETIC */
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
   });
 });
 
-/* ============ GOLONGAN DARAH ============ */
-const bloodData = {
-  A: { title:'Golongan Darah A 🅰️', html:`
-    <ul>
-      <li><strong>Antigen</strong> di eritrosit: A</li>
-      <li><strong>Antibodi</strong> di plasma: anti-B</li>
-      <li><strong>Bisa menerima</strong> dari: A, O</li>
-      <li><strong>Bisa mendonor</strong> ke: A, AB</li>
-      <li>💡 Jika menerima darah B atau AB → antibodi anti-B menyerang → <em>aglutinasi</em>.</li>
-    </ul>`},
-  B: { title:'Golongan Darah B 🅱️', html:`
-    <ul>
-      <li><strong>Antigen</strong> di eritrosit: B</li>
-      <li><strong>Antibodi</strong> di plasma: anti-A</li>
-      <li><strong>Bisa menerima</strong> dari: B, O</li>
-      <li><strong>Bisa mendonor</strong> ke: B, AB</li>
-      <li>💡 Tidak boleh menerima dari A atau AB karena punya anti-A.</li>
-    </ul>`},
-  AB:{ title:'Golongan Darah AB 🆎 — Resipien Universal', html:`
-    <ul>
-      <li><strong>Antigen</strong> di eritrosit: A dan B</li>
-      <li><strong>Antibodi</strong> di plasma: tidak ada</li>
-      <li><strong>Bisa menerima</strong> dari: A, B, AB, O (semua!)</li>
-      <li><strong>Bisa mendonor</strong> ke: AB saja</li>
-      <li>💡 Karena tidak punya antibodi anti-A/anti-B, AB aman menerima semua jenis.</li>
-    </ul>`},
-  O: { title:'Golongan Darah O 🅾️ — Donor Universal', html:`
-    <ul>
-      <li><strong>Antigen</strong> di eritrosit: tidak ada</li>
-      <li><strong>Antibodi</strong> di plasma: anti-A dan anti-B</li>
-      <li><strong>Bisa menerima</strong> dari: O saja</li>
-      <li><strong>Bisa mendonor</strong> ke: A, B, AB, O (semua!)</li>
-      <li>💡 Eritrosit O tidak punya antigen → aman untuk semua resipien.</li>
-    </ul>`}
+/* BLOOD TYPES */
+const bloodData={
+  A:{title:'Golongan Darah A 🅰️',html:`<ul>
+    <li><strong>Antigen</strong> di eritrosit: <strong>A</strong></li>
+    <li><strong>Antibodi</strong> di plasma: <strong>anti-B</strong></li>
+    <li><strong>Bisa menerima</strong> dari: A, O</li>
+    <li><strong>Bisa mendonor</strong> ke: A, AB</li>
+    <li>💡 Kalau dapat darah B / AB → antibodi anti-B menyerang → <em>aglutinasi</em> (menggumpal)</li>
+  </ul>`},
+  B:{title:'Golongan Darah B 🅱️',html:`<ul>
+    <li><strong>Antigen</strong> di eritrosit: <strong>B</strong></li>
+    <li><strong>Antibodi</strong> di plasma: <strong>anti-A</strong></li>
+    <li><strong>Bisa menerima</strong> dari: B, O</li>
+    <li><strong>Bisa mendonor</strong> ke: B, AB</li>
+    <li>💡 Tidak boleh terima A/AB karena punya anti-A</li>
+  </ul>`},
+  AB:{title:'Golongan Darah AB 🆎 — Resipien Universal',html:`<ul>
+    <li><strong>Antigen</strong> di eritrosit: <strong>A dan B</strong></li>
+    <li><strong>Antibodi</strong> di plasma: <strong>tidak ada</strong></li>
+    <li><strong>Bisa menerima</strong> dari: A, B, AB, O (semua!)</li>
+    <li><strong>Bisa mendonor</strong> ke: AB saja</li>
+    <li>💡 Karena tidak punya antibodi, AB aman terima semua jenis</li>
+  </ul>`},
+  O:{title:'Golongan Darah O 🅾️ — Donor Universal',html:`<ul>
+    <li><strong>Antigen</strong> di eritrosit: <strong>tidak ada</strong></li>
+    <li><strong>Antibodi</strong> di plasma: <strong>anti-A dan anti-B</strong></li>
+    <li><strong>Bisa menerima</strong> dari: O saja</li>
+    <li><strong>Bisa mendonor</strong> ke: A, B, AB, O (semua!)</li>
+    <li>💡 Eritrosit O tidak punya antigen → aman untuk semua resipien</li>
+  </ul>`}
 };
-const bTabs = document.querySelectorAll('.b-tab');
-const bPanel = document.getElementById('bPanel');
-function showBlood(key){
-  const d = bloodData[key];
-  bPanel.innerHTML = `<h3>${d.title}</h3>${d.html}`;
-  bPanel.classList.remove('anim'); void bPanel.offsetWidth; bPanel.classList.add('anim');
-}
-bTabs.forEach(t => t.addEventListener('click', () => {
-  bTabs.forEach(x => x.classList.remove('active'));
-  t.classList.add('active');
-  showBlood(t.dataset.b);
-}));
+const bTabs=document.querySelectorAll('.b-tab'),bPanel=document.getElementById('bPanel');
+function showBlood(k){const d=bloodData[k];bPanel.innerHTML=`<h3>${d.title}</h3>${d.html}`;bPanel.classList.remove('anim');void bPanel.offsetWidth;bPanel.classList.add('anim');}
+bTabs.forEach(t=>t.addEventListener('click',()=>{bTabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');showBlood(t.dataset.b);}));
 showBlood('A');
-
-/* Init */
 render();
 </script>
 </body>
-</html>
+</html>,
